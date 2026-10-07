@@ -9,7 +9,8 @@ export default function Hero() {
   const heroRef = useRef(null);
   const bgRef = useRef(null);
   const labelRef = useRef(null);
-  const headingLinesRef = useRef([]);
+  const headingRef = useRef(null);
+  const surgeRef = useRef(null);
   const subRef = useRef(null);
   const descRef = useRef(null);
   const ctaRef = useRef(null);
@@ -18,15 +19,11 @@ export default function Hero() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Set initial states for cinematic mask reveal animation
+      // Set initial states for Option 1: High-Voltage Power Surge & Circuit Energize
       gsap.set(labelRef.current, { opacity: 0, y: -15 });
-      headingLinesRef.current.forEach((line) => {
-        if (!line) return;
-        const span = line.querySelector('span');
-        if (span) {
-          gsap.set(span, { y: '115%', opacity: 0 });
-        }
-      });
+      gsap.set('.hero-char', { y: '120%', opacity: 0, rotateX: -25, transformOrigin: 'top center' });
+      gsap.set('.hero-amp', { y: '120%', opacity: 0, scale: 0.8 });
+      gsap.set(surgeRef.current, { xPercent: -120, opacity: 0 });
       gsap.set(subRef.current, { opacity: 0, y: 25 });
       gsap.set(descRef.current, { opacity: 0, y: 20 });
       gsap.set('.hero-cap-item', { opacity: 0, y: 20, scale: 0.96 });
@@ -38,58 +35,110 @@ export default function Hero() {
       gsap.set(scrollRef.current, { opacity: 0 });
 
       // Entrance animation timeline
-      const tl = gsap.timeline({ delay: 0.2 });
+      const tl = gsap.timeline({ delay: 0.15 });
 
+      // 1. Top Industrial Badge reveals
       tl.to(labelRef.current, {
+        opacity: 1,
+        y: 0,
+        duration: 0.5,
+        ease: 'power3.out',
+      });
+
+      // 2. High-Voltage Kinetic Letter Stagger (sharp 0.022s per character)
+      tl.to('.heading-line-1 .hero-char', {
+        y: '0%',
+        opacity: 1,
+        rotateX: 0,
+        duration: 0.65,
+        stagger: 0.022,
+        ease: 'power4.out',
+      }, '-=0.25');
+
+      tl.to('.hero-amp', {
+        y: '0%',
+        opacity: 1,
+        duration: 0.5,
+        ease: 'power4.out',
+      }, '-=0.55');
+
+      tl.to('.heading-line-2 .hero-char', {
+        y: '0%',
+        opacity: 1,
+        rotateX: 0,
+        duration: 0.65,
+        stagger: 0.022,
+        ease: 'power4.out',
+      }, '-=0.5');
+
+      // 3. Power Surge & Circuit Energize: Electric Light Sweep across heading
+      tl.fromTo(surgeRef.current, 
+        { xPercent: -120, opacity: 1 },
+        {
+          xPercent: 120,
+          opacity: 1,
+          duration: 0.8,
+          ease: 'power2.inOut',
+          onComplete: () => {
+            if (headingRef.current) headingRef.current.classList.add('is-energized');
+            gsap.set(surgeRef.current, { opacity: 0 });
+          }
+        },
+        '-=0.3'
+      );
+
+      // Electric spark glow pass across the letters as the wave travels
+      tl.to('.hero-char', {
+        textShadow: '0 0 22px rgba(0, 212, 255, 0.95), 0 0 45px rgba(0, 102, 255, 0.7)',
+        duration: 0.18,
+        stagger: 0.018,
+        yoyo: true,
+        repeat: 1,
+        ease: 'power1.out',
+      }, '-=0.8');
+
+      // 4. Circuit Breaker Contactor Snap: & symbol spark flash
+      tl.to('.hero-amp', {
+        keyframes: [
+          { scale: 1.35, filter: 'drop-shadow(0 0 30px #ffffff) drop-shadow(0 0 55px #00d4ff)', color: '#ffffff', duration: 0.08 },
+          { scale: 0.92, filter: 'drop-shadow(0 0 8px #00d4ff)', color: '#00d4ff', duration: 0.06 },
+          { scale: 1.25, filter: 'drop-shadow(0 0 35px #00f0ff) drop-shadow(0 0 65px #0066ff)', color: '#ffffff', duration: 0.08 },
+          { scale: 1.0, filter: 'drop-shadow(0 0 16px rgba(0, 212, 255, 0.75))', color: '#00d4ff', duration: 0.15 },
+        ],
+        ease: 'power2.out',
+      }, '-=0.55');
+
+      // 5. Technical details & credentials cascading in
+      tl.to(subRef.current, {
         opacity: 1,
         y: 0,
         duration: 0.7,
         ease: 'power3.out',
-      });
-
-      headingLinesRef.current.forEach((line, i) => {
-        if (!line) return;
-        const span = line.querySelector('span');
-        if (span) {
-          tl.to(span, {
-            y: '0%',
-            opacity: 1,
-            duration: 1.0,
-            ease: 'power4.out',
-          }, i === 0 ? '-=0.4' : '-=0.7');
-        }
-      });
-
-      tl.to(subRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        ease: 'power3.out',
-      }, '-=0.5')
+      }, '-=0.35')
         .to(descRef.current, {
           opacity: 1,
           y: 0,
-          duration: 0.7,
+          duration: 0.65,
           ease: 'power3.out',
         }, '-=0.5')
         .to('.hero-cap-item', {
           opacity: 1,
           y: 0,
           scale: 1,
-          duration: 0.6,
+          duration: 0.55,
           stagger: 0.08,
           ease: 'power3.out',
         }, '-=0.4')
         .to('.hero-execution-strip', {
           opacity: 1,
           y: 0,
-          duration: 0.6,
+          duration: 0.55,
           ease: 'power3.out',
         }, '-=0.3')
         .to(ctaRef.current, {
           opacity: 1,
           y: 0,
-          duration: 0.6,
+          duration: 0.55,
           ease: 'power3.out',
         }, '-=0.3')
         .to('.hero-trust-tagline', {
@@ -101,10 +150,10 @@ export default function Hero() {
         .to('.hero-cred-card', {
           opacity: 1,
           y: 0,
-          duration: 0.7,
-          stagger: 0.1,
+          duration: 0.65,
+          stagger: 0.09,
           ease: 'power3.out',
-        }, '-=0.6')
+        }, '-=0.55')
         .to('.hero-corridors-ribbon', {
           opacity: 1,
           y: 0,
@@ -120,7 +169,7 @@ export default function Hero() {
       gsap.to('.hero-stat-count[data-target]', {
         innerHTML: function(i, el) { return el.dataset.target; },
         duration: 2.2,
-        delay: 1.2,
+        delay: 1.1,
         ease: 'power2.out',
         snap: { innerHTML: 1 },
         stagger: 0.2,
@@ -155,10 +204,18 @@ export default function Hero() {
     return () => ctx.revert();
   }, []);
 
-  const addToLinesRef = (el) => {
-    if (el && !headingLinesRef.current.includes(el)) {
-      headingLinesRef.current.push(el);
-    }
+  // Helper to render accessible letter spans for kinetic stagger
+  const renderChars = (text, customClass = '') => {
+    return text.split(' ').map((word, wIdx, arr) => (
+      <span key={wIdx} className="hero-word">
+        {word.split('').map((char, cIdx) => (
+          <span key={cIdx} className="hero-char-wrap">
+            <span className={`hero-char ${customClass}`}>{char}</span>
+          </span>
+        ))}
+        {wIdx < arr.length - 1 && <span className="hero-word-spacer">&nbsp;</span>}
+      </span>
+    ));
   };
 
   const scrollDown = () => {
@@ -178,7 +235,7 @@ export default function Hero() {
       <div className="hero-overlay" />
       <div className="hero-overlay-bottom" />
 
-      {/* Top Centered Industrial Tagline/Badge (Positioned Upward as Marked) */}
+      {/* Top Centered Industrial Tagline/Badge */}
       <div ref={labelRef} className="hero-label-container">
         <div className="hero-label">
           <span className="hero-label-bar" />
@@ -189,13 +246,18 @@ export default function Hero() {
 
       {/* Main Full-Width Content Container */}
       <div className="hero-content">
-        {/* Commanding Widescreen Heading */}
-        <div className="hero-heading">
-          <div ref={addToLinesRef} className="hero-heading-line">
-            <span>RAYYAN ELECTRICALS</span>
+        {/* Commanding Widescreen Heading with High-Voltage Reveal */}
+        <div className="hero-heading" ref={headingRef}>
+          <div className="hero-heading-surge" ref={surgeRef} aria-hidden="true" />
+          <div className="hero-heading-line heading-line-1" aria-label="RAYYAN ELECTRICALS">
+            {renderChars('RAYYAN ELECTRICALS')}
           </div>
-          <div ref={addToLinesRef} className="hero-heading-line accent">
-            <span><span className="hero-amp">&amp;</span> ENTERPRISES</span>
+          <div className="hero-heading-line heading-line-2 accent" aria-label="& ENTERPRISES">
+            <span className="hero-char-wrap hero-amp-wrap">
+              <span className="hero-amp">&amp;</span>
+            </span>
+            <span className="hero-word-spacer">&nbsp;</span>
+            {renderChars('ENTERPRISES')}
           </div>
         </div>
 
