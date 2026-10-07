@@ -312,6 +312,14 @@
     max-width: 100%;
   }
 
+  .stage-cad-badge {
+    bottom: 10px;
+    left: 10px;
+    padding: 4px 8px;
+    font-size: 9px;
+    letter-spacing: 0.08em;
+  }
+
   .core-stage-desc p {
     font-size: 13px;
     line-height: 1.6;
