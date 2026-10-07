@@ -18,6 +18,25 @@ export default function Hero() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
+      // Set initial states for cinematic mask reveal animation
+      gsap.set(labelRef.current, { opacity: 0, y: -15 });
+      headingLinesRef.current.forEach((line) => {
+        if (!line) return;
+        const span = line.querySelector('span');
+        if (span) {
+          gsap.set(span, { y: '115%', opacity: 0 });
+        }
+      });
+      gsap.set(subRef.current, { opacity: 0, y: 25 });
+      gsap.set(descRef.current, { opacity: 0, y: 20 });
+      gsap.set('.hero-cap-item', { opacity: 0, y: 20, scale: 0.96 });
+      gsap.set('.hero-execution-strip', { opacity: 0, y: 15 });
+      gsap.set(ctaRef.current, { opacity: 0, y: 20 });
+      gsap.set('.hero-trust-tagline', { opacity: 0, y: 10 });
+      gsap.set('.hero-cred-card', { opacity: 0, y: 25 });
+      gsap.set('.hero-corridors-ribbon', { opacity: 0, y: 15 });
+      gsap.set(scrollRef.current, { opacity: 0 });
+
       // Entrance animation timeline
       const tl = gsap.timeline({ delay: 0.2 });
 
@@ -34,9 +53,10 @@ export default function Hero() {
         if (span) {
           tl.to(span, {
             y: '0%',
-            duration: 0.9,
+            opacity: 1,
+            duration: 1.0,
             ease: 'power4.out',
-          }, i === 0 ? '-=0.4' : '-=0.6');
+          }, i === 0 ? '-=0.4' : '-=0.7');
         }
       });
 
@@ -52,18 +72,45 @@ export default function Hero() {
           duration: 0.7,
           ease: 'power3.out',
         }, '-=0.5')
+        .to('.hero-cap-item', {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.6,
+          stagger: 0.08,
+          ease: 'power3.out',
+        }, '-=0.4')
+        .to('.hero-execution-strip', {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          ease: 'power3.out',
+        }, '-=0.3')
         .to(ctaRef.current, {
           opacity: 1,
           y: 0,
           duration: 0.6,
           ease: 'power3.out',
-        }, '-=0.4')
-        .to(statsRef.current, {
+        }, '-=0.3')
+        .to('.hero-trust-tagline', {
+          opacity: 1,
+          y: 0,
+          duration: 0.5,
+          ease: 'power3.out',
+        }, '-=0.2')
+        .to('.hero-cred-card', {
           opacity: 1,
           y: 0,
           duration: 0.7,
+          stagger: 0.1,
           ease: 'power3.out',
-        }, '-=0.4')
+        }, '-=0.6')
+        .to('.hero-corridors-ribbon', {
+          opacity: 1,
+          y: 0,
+          duration: 0.5,
+          ease: 'power3.out',
+        }, '-=0.3')
         .to(scrollRef.current, {
           opacity: 1,
           duration: 0.6,
@@ -170,7 +217,7 @@ export default function Hero() {
                 </p>
               </div>
 
-              {/* Technical Capabilities Matrix - Fills Empty Space With Authority */}
+              {/* Technical Capabilities Matrix */}
               <div className="hero-caps-strip">
                 <div className="hero-cap-item">
                   <span className="hero-cap-icon">⚡</span>
@@ -178,6 +225,7 @@ export default function Hero() {
                     <strong>HT &amp; LT Power</strong>
                     <span>Substations, Panels &amp; Busduct</span>
                   </div>
+                  <span className="hero-cap-pill">Up to 33kV</span>
                 </div>
                 <div className="hero-cap-item">
                   <span className="hero-cap-icon">🛠️</span>
@@ -185,12 +233,53 @@ export default function Hero() {
                     <strong>Infrastructure</strong>
                     <span>Cable Trays &amp; Factory Electrification</span>
                   </div>
+                  <span className="hero-cap-pill">Heavy Duty</span>
                 </div>
                 <div className="hero-cap-item">
                   <span className="hero-cap-icon">🛡️</span>
                   <div className="hero-cap-text">
                     <strong>C-Lic Compliance</strong>
                     <span>Govt. Certified Engineers &amp; AMC</span>
+                  </div>
+                  <span className="hero-cap-pill">TNEB Class</span>
+                </div>
+              </div>
+
+              {/* End-to-End Industrial Execution Bar - Fills The Space Elegantly */}
+              <div className="hero-execution-strip">
+                <div className="execution-header">
+                  <span className="execution-label">END-TO-END INDUSTRIAL TURNKEY SCOPE</span>
+                  <span className="execution-badge">FULL LIFECYCLE</span>
+                </div>
+                <div className="execution-steps">
+                  <div className="exec-step">
+                    <span className="exec-step-num">01</span>
+                    <span className="exec-step-title">Design</span>
+                  </div>
+                  <span className="exec-step-arrow">➔</span>
+                  <div className="exec-step">
+                    <span className="exec-step-num">02</span>
+                    <span className="exec-step-title">Supply</span>
+                  </div>
+                  <span className="exec-step-arrow">➔</span>
+                  <div className="exec-step">
+                    <span className="exec-step-num">03</span>
+                    <span className="exec-step-title">Installation</span>
+                  </div>
+                  <span className="exec-step-arrow">➔</span>
+                  <div className="exec-step">
+                    <span className="exec-step-num">04</span>
+                    <span className="exec-step-title">Testing</span>
+                  </div>
+                  <span className="exec-step-arrow">➔</span>
+                  <div className="exec-step">
+                    <span className="exec-step-num">05</span>
+                    <span className="exec-step-title">Commissioning</span>
+                  </div>
+                  <span className="exec-step-arrow">➔</span>
+                  <div className="exec-step">
+                    <span className="exec-step-num">06</span>
+                    <span className="exec-step-title">AMC</span>
                   </div>
                 </div>
               </div>
