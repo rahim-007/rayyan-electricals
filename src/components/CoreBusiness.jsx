@@ -9,42 +9,48 @@ const stages = [
   {
     number: '01',
     title: 'DESIGNING',
-    desc: 'Electrical system design, engineering and project planning based on site and operational requirements.',
+    desc: 'Comprehensive electrical system design, engineering schematics and project planning based on industrial site and operational requirements.',
+    deliverables: ['Load Calculation', 'Single Line Diagrams (SLD)', 'Substation Layout', 'CEIG Approvals'],
     image: '/images/design-engineering.webp',
     imageAlt: 'Electrical engineer working on industrial design',
   },
   {
     number: '02',
     title: 'SUPPLYING',
-    desc: 'Supply of electrical equipment, materials and systems required for project execution.',
+    desc: 'Direct procurement and supply of certified HT/LT electrical equipment, transformers, switchgear, and infrastructure materials.',
+    deliverables: ['HT & LT Panels', 'Distribution Transformers', 'Heavy Cable Trays', 'Sandwich Busducts'],
     image: '/images/supply-equipment.webp',
     imageAlt: 'Industrial electrical equipment prepared for supply',
   },
   {
     number: '03',
     title: 'INSTALLATION',
-    desc: 'Professional installation and integration of electrical systems and infrastructure.',
+    desc: 'Turnkey on-site execution, precision cable tray routing, panel erection, and factory electrification adhering to Indian Electricity Rules.',
+    deliverables: ['HT/LT Cable Laying', 'Substation Erection', 'Earth Pit Grid Matrix', 'Factory Lighting'],
     image: '/images/installation-cable.webp',
     imageAlt: 'Technicians installing cable trays in industrial facility',
   },
   {
     number: '04',
     title: 'TESTING',
-    desc: 'Inspection, testing and verification of electrical installations and systems.',
+    desc: 'Rigorous pre-commissioning testing, insulation resistance, relay calibration, and safety compliance audits using calibrated test instruments.',
+    deliverables: ['Insulation Resistance (Megger)', 'Relay Secondary Injection', 'Hi-Pot Breakdown Test', 'Earth Resistance Test'],
     image: '/images/testing-electrical.webp',
     imageAlt: 'Engineer performing electrical testing',
   },
   {
     number: '05',
     title: 'COMMISSIONING',
-    desc: 'Functional checks, system commissioning and operational readiness.',
+    desc: 'Formal CEIG inspection facilitation, synchronised system charging, trial runs, and operational handover with statutory compliance documentation.',
+    deliverables: ['CEIG / TNEB Clearance', 'Zero-Defect Charging', 'Load Distribution Trials', 'As-Built Drawings'],
     image: '/images/commissioning.webp',
     imageAlt: 'Engineers performing commissioning checks',
   },
   {
     number: '06',
-    title: 'AMC',
-    desc: 'Planned electrical annual maintenance contract and support for industrial facilities and MNC organizations.',
+    title: 'AMC & MAINTENANCE',
+    desc: '24/7 round-the-clock emergency breakdown response, periodic preventive maintenance, and thermal imaging audits for continuous plant uptime.',
+    deliverables: ['24/7 Breakdown Dispatch', 'Periodic PM Schedules', 'Thermographic Audits', 'Statutory Annual Audit'],
     image: '/images/maintenance-amc.webp',
     imageAlt: 'Technicians performing planned maintenance',
   },
@@ -139,9 +145,9 @@ export default function CoreBusiness() {
         );
       }
 
-      // 4. Staggered reveal of description text for active stage
+      // 4. Staggered reveal of description text and deliverables chips for active stage
       gsap.fromTo(
-        '.core-stage.active .core-stage-desc p',
+        '.core-stage.active .core-stage-desc',
         { opacity: 0, y: 10 },
         { opacity: 1, y: 0, duration: 0.45, delay: 0.1, ease: 'power2.out' }
       );
@@ -162,11 +168,12 @@ export default function CoreBusiness() {
     <section id="core-business" ref={sectionRef} className="core-business">
       <div className="core-business-inner">
         <div className="core-business-top">
+          <div className="core-business-tagline">
+            <span className="core-tagline-dot" />
+            <span>Industrial Turnkey Execution — Full Lifecycle Scope</span>
+          </div>
           <h2 className="core-business-main-title">
-            COMPLETE<br />
-            ELECTRICAL<br />
-            PROJECT<br />
-            <span style={{ color: 'var(--color-golden)' }}>LIFECYCLE</span>
+            COMPLETE ELECTRICAL PROJECT <span className="lifecycle-accent">LIFECYCLE</span>
           </h2>
         </div>
 
@@ -223,6 +230,16 @@ export default function CoreBusiness() {
                 </div>
                 <div className="core-stage-desc">
                   <p>{stage.desc}</p>
+                  {/* Technical Deliverables Scope Chips */}
+                  {stage.deliverables && (
+                    <div className="stage-deliverables">
+                      {stage.deliverables.map((item, idx) => (
+                        <span key={idx} className="stage-deliverable-chip">
+                          {item}
+                        </span>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
             ))}
