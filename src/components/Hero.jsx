@@ -154,38 +154,75 @@ export default function Hero() {
 
         {/* Lower Panoramic Split: Left Details + Right Industrial Credentials Matrix */}
         <div className="hero-panoramic-grid">
-          {/* Left Column: Subtitle, Description, CTA Buttons */}
+          {/* Left Column: Subtitle, Description, Technical Capability Matrix, CTA Buttons */}
           <div className="hero-left-col">
-            <div ref={subRef} className="hero-sub">
-              <p>
-                <strong>POWERING INDUSTRY</strong> THROUGH RELIABLE ELECTRICAL SOLUTIONS
-              </p>
+            <div className="hero-left-top">
+              <div ref={subRef} className="hero-sub">
+                <p>
+                  <strong>POWERING INDUSTRY</strong> THROUGH RELIABLE ELECTRICAL SOLUTIONS
+                </p>
+              </div>
+
+              <div ref={descRef} className="hero-desc">
+                <p>
+                  End-to-end turnkey electrical solutions covering design, supply, installation,
+                  testing, commissioning and maintenance across Tamil Nadu's industrial manufacturing hubs.
+                </p>
+              </div>
+
+              {/* Technical Capabilities Matrix - Fills Empty Space With Authority */}
+              <div className="hero-caps-strip">
+                <div className="hero-cap-item">
+                  <span className="hero-cap-icon">⚡</span>
+                  <div className="hero-cap-text">
+                    <strong>HT &amp; LT Power</strong>
+                    <span>Substations, Panels &amp; Busduct</span>
+                  </div>
+                </div>
+                <div className="hero-cap-item">
+                  <span className="hero-cap-icon">🛠️</span>
+                  <div className="hero-cap-text">
+                    <strong>Infrastructure</strong>
+                    <span>Cable Trays &amp; Factory Electrification</span>
+                  </div>
+                </div>
+                <div className="hero-cap-item">
+                  <span className="hero-cap-icon">🛡️</span>
+                  <div className="hero-cap-text">
+                    <strong>C-Lic Compliance</strong>
+                    <span>Govt. Certified Engineers &amp; AMC</span>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <div ref={descRef} className="hero-desc">
-              <p>
-                End-to-end turnkey electrical solutions covering design, supply, installation,
-                testing, commissioning and maintenance across Tamil Nadu's industrial manufacturing hubs.
-              </p>
-            </div>
+            <div className="hero-left-bottom">
+              <div ref={ctaRef} className="hero-cta-group">
+                <button
+                  className="btn btn-primary"
+                  onClick={() => document.querySelector('#core-business')?.scrollIntoView({ behavior: 'smooth' })}
+                >
+                  Explore Capabilities
+                </button>
+                <button
+                  className="btn btn-outline"
+                  onClick={() => document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' })}
+                >
+                  Contact Us
+                </button>
+                <a href="tel:+918056810080" className="hero-cta-call">
+                  <span className="cta-call-icon">📞</span>
+                  <span>Direct Hotline</span>
+                </a>
+              </div>
 
-            <div ref={ctaRef} className="hero-cta-group">
-              <button
-                className="btn btn-primary"
-                onClick={() => document.querySelector('#core-business')?.scrollIntoView({ behavior: 'smooth' })}
-              >
-                Explore Capabilities
-              </button>
-              <button
-                className="btn btn-outline"
-                onClick={() => document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' })}
-              >
-                Contact Us
-              </button>
-              <a href="tel:+918056810080" className="hero-cta-call">
-                <span className="cta-call-icon">📞</span>
-                <span>Direct Hotline</span>
-              </a>
+              <div className="hero-trust-tagline">
+                <span>✓ 20+ Site Engineers &amp; Licensed Wiremen</span>
+                <span className="tagline-dot">•</span>
+                <span>✓ 24/7 Breakdown Response</span>
+                <span className="tagline-dot">•</span>
+                <span>✓ Oragadam Hub</span>
+              </div>
             </div>
           </div>
 
