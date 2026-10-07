@@ -115,31 +115,30 @@
   width: 100%;
   text-align: center;
   position: relative;
-  perspective: 1000px;
+  perspective: 1400px;
+  transform-style: preserve-3d;
 }
 
-/* Electric Surge Sweep Beam (Option 1) */
-.hero-heading-surge {
+/* 3D Flip-Lock Backlight Bloom (Option 2) */
+.hero-heading-bloom {
   position: absolute;
-  top: -20%;
-  bottom: -20%;
-  left: 0;
-  width: 100%;
+  top: -35%;
+  bottom: -35%;
+  left: 3%;
+  right: 3%;
   pointer-events: none;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(0, 102, 255, 0) 25%,
-    rgba(0, 212, 255, 0.45) 45%,
-    #ffffff 50%,
-    rgba(0, 212, 255, 0.45) 55%,
-    rgba(0, 102, 255, 0) 75%,
-    transparent 100%
+  background: radial-gradient(
+    ellipse 65% 55% at 50% 50%,
+    rgba(0, 102, 255, 0.45) 0%,
+    rgba(0, 212, 255, 0.22) 32%,
+    rgba(0, 102, 255, 0.08) 58%,
+    transparent 75%
   );
-  filter: blur(6px);
-  mix-blend-mode: screen;
-  z-index: 10;
+  filter: blur(32px);
+  z-index: 1;
   opacity: 0;
+  transform: translateZ(-20px);
+  transition: opacity 0.5s ease;
 }
 
 .hero-heading-line {
@@ -150,6 +149,9 @@
   line-height: 0.94;
   text-align: center;
   position: relative;
+  z-index: 2;
+  perspective: 1200px;
+  transform-style: preserve-3d;
 }
 
 .hero-word {
@@ -160,10 +162,11 @@
 
 .hero-char-wrap {
   display: inline-block;
-  overflow: hidden;
   line-height: 0.94;
   vertical-align: bottom;
-  padding: 0 1px;
+  perspective: 1000px;
+  transform-style: preserve-3d;
+  padding: 0 1.5px;
 }
 
 .hero-char {
@@ -175,8 +178,11 @@
   letter-spacing: -0.015em;
   color: var(--color-white);
   line-height: 0.94;
-  will-change: transform, opacity, text-shadow;
-  transition: text-shadow 0.35s ease, color 0.3s ease;
+  will-change: transform, opacity;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  text-shadow: 0 4px 16px rgba(0, 0, 0, 0.75), 0 1px 3px rgba(0, 0, 0, 0.9);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), text-shadow 0.35s ease;
 }
 
 .hero-word-spacer {
@@ -199,31 +205,26 @@
   font-weight: 900;
   line-height: 0.94;
   color: var(--color-cyan-spark);
-  will-change: transform, filter, color;
-  transition: filter 0.35s ease;
+  will-change: transform, opacity, filter;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  filter: drop-shadow(0 0 14px rgba(0, 212, 255, 0.75));
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), filter 0.35s ease;
 }
 
-/* Post-Energized Continuous High-Voltage Aura */
-.hero-heading.is-energized .hero-amp {
-  animation: ampElectricPulse 3.8s ease-in-out infinite;
-}
-
-@keyframes ampElectricPulse {
-  0%, 100% {
-    filter: drop-shadow(0 0 12px rgba(0, 212, 255, 0.65));
-  }
-  50% {
-    filter: drop-shadow(0 0 22px rgba(0, 212, 255, 0.95)) drop-shadow(0 0 38px rgba(0, 102, 255, 0.55));
-  }
-}
-
-/* Interactive Hover Surge */
+/* Interactive 3D Depth on Hover */
 .hero-heading:hover .hero-char {
-  text-shadow: 0 0 16px rgba(0, 212, 255, 0.5);
+  transform: translateY(-2px) scale(1.02);
+  text-shadow: 0 6px 24px rgba(0, 0, 0, 0.85), 0 0 18px rgba(0, 212, 255, 0.35);
 }
 
 .hero-heading:hover .hero-amp {
-  filter: drop-shadow(0 0 28px rgba(0, 212, 255, 1)) drop-shadow(0 0 50px rgba(0, 102, 255, 0.75));
+  transform: translateY(-2px) scale(1.08);
+  filter: drop-shadow(0 0 24px rgba(0, 212, 255, 1)) drop-shadow(0 0 48px rgba(0, 102, 255, 0.8));
+}
+
+.hero-heading:hover .hero-heading-bloom {
+  opacity: 0.7;
 }
 
 /* Lower Panoramic Split */
