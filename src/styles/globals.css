@@ -1,0 +1,301 @@
+/* ========================================
+   RAYYAN ELECTRICALS – GLOBAL CSS
+   THEME: OPTION 5 - PRECISION STEEL & INDUSTRIAL BLUE
+   ======================================== */
+
+/* ---- Reset & Base ---- */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* Brand Color Tokens (Option 5: Precision Steel & Industrial Blue) */
+  --color-steel-bg: #0F131A;            /* Cool Steel Graphite (main dark background) */
+  --color-steel-dark: #090C10;          /* Deepest graphite tone */
+  --color-steel-card: #161D29;          /* Precision card surface */
+  --color-steel-surface: #1E2738;       /* Elevated technical surface */
+  --color-steel-border: rgba(0, 102, 255, 0.2); /* Technical grid border */
+
+  --color-royal-blue: #0066FF;          /* Crisp Royal Blue (matches REE Logo primary) */
+  --color-royal-dark: #0047BA;          /* Deep industrial blue */
+  --color-cyan-spark: #00D2FF;          /* High-voltage ice cyan glow */
+  
+  --color-volt-red: #EF4444;            /* High-voltage alert red (matches logo bolt) */
+  --color-amber-gold: #F59E0B;          /* Solar amber for ratings & certifications */
+
+  /* Semantic Theme Mappings */
+  --color-dark-green: var(--color-steel-bg); /* Mapped from legacy green to Cool Steel */
+  --color-golden: var(--color-royal-blue);   /* Mapped to Crisp Royal Blue */
+  --color-brand-blue: var(--color-royal-blue);
+  --color-brand-accent: var(--color-cyan-spark);
+
+  --color-white: #FFFFFF;
+  --color-off-white: #F8FAFC;           /* Crisp Ice Slate for light sections */
+  --color-text-muted: #94A3B8;          /* Technical slate muted text */
+  --color-black: #090C10;
+  --color-dark: #12161F;
+
+  /* Typography */
+  --font-heading: 'Barlow Condensed', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-number: 'Space Grotesk', sans-serif;
+
+  /* Spacing */
+  --section-padding: clamp(48px, 5vw, 88px);
+  --container-max: 1680px;
+  --container-padding: clamp(20px, 3.5vw, 56px);
+
+  /* Transitions */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: auto;
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-steel-bg);
+  color: var(--color-white);
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
+  position: relative;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Lenis smooth scroll */
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* ---- Utility Classes ---- */
+.container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--container-padding);
+}
+
+.section-label {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--color-cyan-spark);
+  display: inline-block;
+}
+
+.golden-line {
+  width: 36px;
+  height: 2px;
+  background: var(--color-royal-blue);
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 12px;
+}
+
+/* ---- Section Divider ---- */
+.section-divider {
+  width: 100%;
+  height: 1px;
+  background: rgba(0, 102, 255, 0.15);
+}
+
+/* ---- Scroll progress bar ---- */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--color-royal-blue) 0%, var(--color-cyan-spark) 100%);
+  z-index: 9999;
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: transform 0.1s linear;
+}
+
+/* ---- Selection ---- */
+::selection {
+  background: var(--color-royal-blue);
+  color: var(--color-white);
+}
+
+/* ---- Images ---- */
+img {
+  display: block;
+  max-width: 100%;
+}
+
+/* ---- Overflow hidden for clip reveals ---- */
+.overflow-hidden {
+  overflow: hidden;
+}
+
+/* ---- Button Base ---- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: all 0.35s var(--ease-out);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--color-royal-blue) 0%, var(--color-royal-dark) 100%);
+  color: var(--color-white);
+  padding: 16px 36px;
+  box-shadow: 0 4px 18px rgba(0, 102, 255, 0.4);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #1A75FF 0%, var(--color-royal-blue) 100%);
+  box-shadow: 0 6px 26px rgba(0, 102, 255, 0.6);
+  transform: translateY(-2px);
+}
+
+.btn-outline {
+  background: rgba(0, 102, 255, 0.06);
+  color: var(--color-white);
+  padding: 14px 34px;
+  border: 1px solid rgba(0, 102, 255, 0.45);
+}
+
+.btn-outline:hover {
+  border-color: var(--color-cyan-spark);
+  color: var(--color-cyan-spark);
+  background: rgba(0, 102, 255, 0.15);
+  box-shadow: 0 0 18px rgba(0, 210, 255, 0.25);
+  transform: translateY(-2px);
+}
+
+/* ---- GSAP Reveal helpers ---- */
+.reveal-text {
+  overflow: hidden;
+}
+
+.reveal-text span {
+  display: block;
+  transform: translateY(100%);
+}
+
+/* ---- Mask text helper ---- */
+.mask-line {
+  overflow: hidden;
+  display: block;
+}
+
+/* ---- Image placeholder ---- */
+.img-placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #161D29 0%, #090C10 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: rgba(0, 102, 255, 0.5);
+  text-transform: uppercase;
+}
+
+/* ---- Responsive typography ---- */
+.h-giant {
+  font-family: var(--font-heading);
+  font-size: clamp(64px, 9vw, 160px);
+  font-weight: 800;
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.h-large {
+  font-family: var(--font-heading);
+  font-size: clamp(48px, 7vw, 120px);
+  font-weight: 800;
+  line-height: 0.92;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+
+.h-medium {
+  font-family: var(--font-heading);
+  font-size: clamp(36px, 5vw, 80px);
+  font-weight: 700;
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+
+.h-small {
+  font-family: var(--font-heading);
+  font-size: clamp(24px, 3vw, 48px);
+  font-weight: 700;
+  line-height: 1.05;
+  text-transform: uppercase;
+}
+
+.body-large {
+  font-family: var(--font-body);
+  font-size: clamp(15px, 1.2vw, 18px);
+  line-height: 1.7;
+  color: rgba(255,255,255,0.8);
+}
+
+.body-regular {
+  font-family: var(--font-body);
+  font-size: clamp(13px, 1vw, 15px);
+  line-height: 1.65;
+  color: rgba(255,255,255,0.65);
+}
+
+/* ---- Light background sections ---- */
+.section-light {
+  background: var(--color-off-white);
+  color: var(--color-black);
+}
+
+.section-dark {
+  background: var(--color-dark);
+  color: var(--color-white);
+}
+
+.section-green {
+  background: var(--color-steel-bg);
+  color: var(--color-white);
+}

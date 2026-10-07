@@ -1,0 +1,227 @@
+/* ========================================
+   ABOUT SECTION STYLES
+   ======================================== */
+
+.about {
+  background: var(--color-off-white);
+  padding: var(--section-padding) 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.about-inner {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--container-padding);
+}
+
+/* Two column layout */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+
+/* Left Column */
+.about-left {
+  position: sticky;
+  top: 120px;
+}
+
+.about-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 32px;
+}
+
+.about-label .golden-line {
+  background: var(--color-dark-green);
+  opacity: 0.3;
+}
+
+.about-label span {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--color-dark-green);
+  opacity: 0.6;
+}
+
+.about-heading {
+  font-family: var(--font-heading);
+  font-size: clamp(72px, 9vw, 160px);
+  font-weight: 900;
+  line-height: 0.88;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: var(--color-dark-green);
+  margin-bottom: 48px;
+}
+
+.about-heading .year-accent {
+  display: block;
+  font-size: clamp(20px, 3vw, 48px);
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  color: var(--color-golden);
+  margin-top: 8px;
+}
+
+.about-image-wrap {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4 / 5;
+  clip-path: inset(0 0 100% 0);
+}
+
+.about-image-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.1);
+  transition: transform 0.6s var(--ease-out);
+}
+
+.about-image-wrap:hover img {
+  transform: scale(1.05);
+}
+
+.about-year-bg {
+  position: absolute;
+  bottom: -20px;
+  right: -20px;
+  font-family: var(--font-heading);
+  font-size: clamp(80px, 12vw, 200px);
+  font-weight: 900;
+  color: rgba(16, 29, 6, 0.06);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+}
+
+/* Right Column */
+.about-right {
+  padding-top: 80px;
+}
+
+.about-paragraphs {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+  margin-bottom: 60px;
+}
+
+.about-paragraph p {
+  font-family: var(--font-body);
+  font-size: clamp(14px, 1.1vw, 17px);
+  line-height: 1.8;
+  color: rgba(34, 34, 34, 0.75);
+  transform: translateY(30px);
+  opacity: 0;
+}
+
+.about-paragraph.first p {
+  font-size: clamp(16px, 1.4vw, 20px);
+  color: rgba(34, 34, 34, 0.9);
+  font-weight: 500;
+}
+
+/* Stats row in about */
+.about-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border-top: 1px solid rgba(16, 29, 6, 0.12);
+  padding-top: 48px;
+}
+
+.about-stat {
+  padding-right: 32px;
+  border-right: 1px solid rgba(16, 29, 6, 0.08);
+}
+
+.about-stat:last-child {
+  border-right: none;
+  padding-right: 0;
+  padding-left: 32px;
+}
+
+.about-stat:nth-child(2) {
+  padding: 0 32px;
+}
+
+.about-stat-number {
+  font-family: var(--font-number);
+  font-size: clamp(36px, 4vw, 64px);
+  font-weight: 700;
+  color: var(--color-golden);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.about-stat-label {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(34, 34, 34, 0.5);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 60px;
+  }
+
+  .about-left {
+    position: static;
+  }
+
+  .about-right {
+    padding-top: 0;
+  }
+
+  .about-image-wrap {
+    aspect-ratio: 16 / 9;
+  }
+}
+
+@media (max-width: 768px) {
+  .about-stats {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .about-stat:nth-child(3) {
+    grid-column: 1 / -1;
+    border-right: none;
+    border-top: 1px solid rgba(16,29,6,0.08);
+    padding-top: 24px;
+    margin-top: 24px;
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .about-stat {
+    border-right: none;
+    border-top: 1px solid rgba(16,29,6,0.08);
+    padding: 20px 0 0;
+  }
+
+  .about-stat:first-child {
+    border-top: none;
+    padding-top: 0;
+  }
+}

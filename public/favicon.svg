@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <rect width="64" height="64" rx="14" fill="#0C1405"/>
+  <rect x="2" y="2" width="60" height="60" rx="12" stroke="#ECC618" stroke-opacity="0.3" stroke-width="1.5"/>
+  <!-- Lightning Bolt Geometric Symbol -->
+  <path d="M36 8L16 34H32L26 56L48 28H32L36 8Z" fill="#ECC618"/>
+  <path d="M34 16L22 34H34L30 48L42 30H30L34 16Z" fill="#FFE866" fill-opacity="0.6"/>
+</svg>

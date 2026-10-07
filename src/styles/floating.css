@@ -1,0 +1,190 @@
+/* ========================================
+   FLOATING ACTIONS (WhatsApp & Scroll-To-Top)
+   ======================================== */
+
+.floating-actions {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 14px;
+  pointer-events: none;
+}
+
+.floating-actions>* {
+  pointer-events: auto;
+}
+
+/* Scroll To Top */
+.floating-scroll-top {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(16, 29, 6, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: translateY(16px) scale(0.9);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.floating-scroll-top.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.floating-scroll-top:hover {
+  background: rgba(22, 42, 8, 0.98);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 12px 28px rgba(255, 184, 28, 0.25);
+}
+
+.progress-ring {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: rotate(-90deg);
+  pointer-events: none;
+}
+
+.progress-ring-indicator {
+  transition: stroke-dashoffset 0.15s ease-out;
+}
+
+.scroll-arrow-icon {
+  font-size: 20px;
+  color: #FFFFFF;
+  transition: transform 0.25s ease, color 0.25s ease;
+}
+
+.floating-scroll-top:hover .scroll-arrow-icon {
+  transform: translateY(-2px);
+  color: var(--color-cyan-spark);
+}
+
+/* Floating WhatsApp Button */
+.floating-whatsapp-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #25D366;
+  color: #FFFFFF;
+  text-decoration: none;
+  padding: 10px 18px 10px 14px;
+  border-radius: 9999px;
+  box-shadow: 0 8px 28px rgba(37, 211, 102, 0.45);
+  position: relative;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+.floating-whatsapp-btn:hover {
+  background: #20BD5A;
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 12px 36px rgba(37, 211, 102, 0.65);
+}
+
+.whatsapp-pulse {
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  border: 2px solid #25D366;
+  animation: wa-pulse 2.2s infinite;
+  pointer-events: none;
+}
+
+@keyframes wa-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+
+  70% {
+    transform: scale(1.25, 1.45);
+    opacity: 0;
+  }
+
+  100% {
+    transform: scale(1.3, 1.5);
+    opacity: 0;
+  }
+}
+
+.whatsapp-icon {
+  font-size: 26px;
+  flex-shrink: 0;
+  color: #FFFFFF;
+}
+
+.whatsapp-label {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+
+.whatsapp-status {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.whatsapp-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .floating-actions {
+    bottom: 16px;
+    right: 14px;
+    gap: 8px;
+  }
+
+  .whatsapp-title {
+    display: none;
+  }
+
+  .floating-whatsapp-btn {
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    box-shadow: 0 4px 16px rgba(37, 211, 102, 0.4);
+  }
+
+  .whatsapp-icon {
+    font-size: 22px;
+  }
+
+  .floating-scroll-top {
+    width: 38px;
+    height: 38px;
+  }
+
+  .scroll-arrow-icon {
+    font-size: 16px;
+  }
+
+  .whatsapp-label {
+    display: none;
+  }
+}

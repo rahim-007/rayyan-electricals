@@ -1,0 +1,104 @@
+/* ========================================
+   POST-HERO CLIENT TRUST BANNER
+   THEME: OPTION 5 - PRECISION STEEL & INDUSTRIAL BLUE
+   ======================================== */
+.client-trust-banner {
+  background: #090C10;
+  border-top: 1px solid rgba(0, 102, 255, 0.28);
+  border-bottom: 1px solid rgba(0, 102, 255, 0.12);
+  padding: 24px 0;
+  position: relative;
+  z-index: 10;
+  overflow: hidden;
+}
+
+.trust-banner-inner {
+  max-width: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0 clamp(20px, 3.5vw, 56px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  box-sizing: border-box;
+}
+
+.trust-banner-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  text-align: center;
+}
+
+.trust-badge-line {
+  width: 24px;
+  height: 2px;
+  background: var(--color-royal-blue);
+  opacity: 0.85;
+}
+
+.trust-banner-title {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.trust-banner-title strong {
+  color: var(--color-cyan-spark);
+}
+
+.trust-marquee-wrapper {
+  width: 100%;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+}
+
+.trust-marquee-track {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: max-content;
+  will-change: transform;
+}
+
+.trust-logo-chip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #FFFFFF;
+  border-radius: 10px;
+  padding: 6px 14px;
+  height: 48px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.trust-logo-chip:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 22px rgba(0, 102, 255, 0.35);
+}
+
+.trust-logo-chip img {
+  height: 28px;
+  width: auto;
+  max-width: 90px;
+  object-fit: contain;
+}
+
+.trust-logo-chip-text {
+  font-family: var(--font-heading);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: #0F131A;
+  text-transform: uppercase;
+  white-space: nowrap;
+}

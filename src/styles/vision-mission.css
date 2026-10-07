@@ -1,0 +1,195 @@
+/* ========================================
+   VISION & MISSION (DETAILED & FULL WIDTH)
+   THEME: OPTION 5 - PRECISION STEEL & INDUSTRIAL BLUE
+   ======================================== */
+.vision-mission-compact {
+  background: var(--color-steel-bg);
+  padding: clamp(48px, 5vw, 80px) 0;
+  position: relative;
+  overflow: hidden;
+  border-top: 1px solid rgba(0, 102, 255, 0.16);
+  width: 100%;
+}
+
+.vm-compact-inner {
+  max-width: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0 clamp(20px, 3.5vw, 56px);
+  box-sizing: border-box;
+}
+
+.vm-header {
+  margin-bottom: 36px;
+}
+
+.vm-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--color-cyan-spark);
+  margin-bottom: 12px;
+}
+
+.vm-label .golden-line {
+  display: inline-block;
+  width: 36px;
+  height: 2.5px;
+  background: var(--color-royal-blue);
+}
+
+.vm-main-title {
+  font-family: var(--font-heading);
+  font-size: clamp(40px, 5.5vw, 76px);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  line-height: 0.95;
+  color: var(--color-white);
+  margin: 0;
+}
+
+.vm-dual-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  width: 100%;
+}
+
+.vm-card {
+  background: rgba(22, 29, 41, 0.75);
+  border: 1.5px solid rgba(0, 102, 255, 0.2);
+  border-radius: 20px;
+  padding: 36px 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 22px;
+  transition: all 0.35s ease;
+  position: relative;
+  overflow: hidden;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.vm-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--color-royal-blue), var(--color-cyan-spark));
+  opacity: 0.85;
+  transition: opacity 0.35s ease;
+}
+
+.vm-card:hover {
+  background: rgba(30, 39, 56, 0.85);
+  border-color: var(--color-cyan-spark);
+  transform: translateY(-6px);
+  box-shadow: 0 20px 42px rgba(0, 0, 0, 0.45), 0 0 24px rgba(0, 102, 255, 0.22);
+}
+
+.vm-card:hover::before {
+  opacity: 1;
+}
+
+.vm-card-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-cyan-spark);
+  background: rgba(0, 102, 255, 0.14);
+  border: 1px solid rgba(0, 102, 255, 0.3);
+  padding: 8px 16px;
+  border-radius: 999px;
+  width: fit-content;
+}
+
+.vm-card-icon {
+  font-size: 18px;
+}
+
+.vm-card-heading {
+  font-family: var(--font-heading);
+  font-size: clamp(26px, 2.5vw, 36px);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--color-white);
+  line-height: 1.1;
+  margin: 0;
+}
+
+.vm-card-text {
+  font-family: var(--font-body);
+  font-size: clamp(15px, 1.15vw, 17px);
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.92);
+  margin: 0;
+  font-weight: 450;
+  border-left: 3px solid var(--color-royal-blue);
+  padding-left: 18px;
+}
+
+/* Detailed Pillar Bullets from PDF */
+.vm-pillars-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 10px;
+  padding: 0;
+  list-style: none;
+}
+
+.vm-pillar-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.vm-pillar-bullet {
+  color: var(--color-cyan-spark);
+  font-size: 18px;
+  line-height: 1;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.vm-card-footer {
+  padding-top: 18px;
+  border-top: 1px dashed rgba(0, 102, 255, 0.2);
+}
+
+.vm-card-tag {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.7);
+  text-transform: uppercase;
+}
+
+@media (max-width: 900px) {
+  .vm-dual-grid {
+    grid-template-columns: 1fr;
+  }
+  .vm-card {
+    padding: 28px 24px;
+  }
+}
