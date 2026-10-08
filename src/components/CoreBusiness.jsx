@@ -73,43 +73,61 @@ export default function CoreBusiness() {
   const stageAreaRef = useRef(null);
   const cardRefs = useRef([]);
   const scrollTriggerRef = useRef(null);
+  const tweenRef = useRef(null);
+  const progressObjRef = useRef({ value: 0 });
   const [activeStage, setActiveStage] = useState(0);
+  const [smoothProgress, setSmoothProgress] = useState(0);
   const currentProgressRef = useRef(0);
-  const dragRef = useRef({ isDragging: false, startX: 0, startScroll: 0, hasMoved: false });
+  const dragRef = useRef({ isDragging: false, startX: 0, startScroll: 0, hasMoved: false, lastX: 0, velocity: 0 });
 
-  // Compute and apply 3D transforms to cards
+  // Compute and apply continuous 3D transforms to cards without clipping or discrete jumps
   const apply3DTransforms = useCallback((progressFloat) => {
     const isMobile = window.innerWidth < 768;
     const isTablet = window.innerWidth >= 768 && window.innerWidth < 1024;
 
-    const xSpacing = isMobile ? Math.min(280, window.innerWidth * 0.72) : isTablet ? 320 : 390;
-    const zSpacing = isMobile ? 150 : 210;
-    const rotateFactor = isMobile ? 26 : 34;
+    const xSpacing = isMobile ? Math.min(270, window.innerWidth * 0.72) : isTablet ? 320 : 380;
+    const zSpacing = isMobile ? 140 : 185;
+    const maxRotate = isMobile ? 32 : 40;
 
     cardRefs.current.forEach((card, i) => {
       if (!card) return;
       const diff = i - progressFloat;
       const absDiff = Math.abs(diff);
 
-      if (absDiff > 2.8) {
+      // Smooth cutoff without popping: hide only when far out of view
+      if (absDiff > 3.0) {
         card.style.opacity = '0';
         card.style.pointerEvents = 'none';
-        card.style.transform = `translate3d(${diff > 0 ? 900 : -900}px, 0px, -600px) scale(0.5)`;
+        card.style.visibility = 'hidden';
         card.classList.remove('lc-active');
         return;
       }
 
-      const translateX = diff * xSpacing;
-      const translateZ = -absDiff * zSpacing;
-      const rotateY = -Math.sign(diff) * Math.min(60, Math.pow(absDiff, 0.88) * rotateFactor);
-      const scale = Math.max(0.68, 1 - absDiff * 0.12);
-      const opacity = Math.max(0, 1 - absDiff * 0.42);
-      const zIndex = Math.round(100 - absDiff * 25);
+      card.style.visibility = 'visible';
 
-      card.style.transform = `translate3d(${translateX.toFixed(1)}px, 0px, ${translateZ.toFixed(1)}px) rotateY(${rotateY.toFixed(1)}deg) scale(${scale.toFixed(3)})`;
-      card.style.opacity = opacity.toFixed(2);
+      // Horizontal position along carousel arc
+      const translateX = diff * xSpacing;
+
+      // Smooth depth progression (active card is forward at 0, others gently curve backward)
+      const translateZ = -Math.pow(absDiff, 1.18) * zSpacing;
+
+      // Smooth continuous Y rotation: sine curve has 0 derivative at center and continuous slope
+      const angleRatio = Math.sin(Math.max(-1, Math.min(1, diff * 0.62)));
+      const rotateY = -angleRatio * maxRotate;
+
+      // Smooth continuous scale
+      const scale = Math.max(0.68, 1 - Math.pow(absDiff, 1.1) * 0.12);
+
+      // Smooth Gaussian-style opacity curve (no abrupt cutoff)
+      const opacity = Math.max(0, Math.min(1, Math.exp(-0.38 * absDiff * absDiff)));
+
+      // Strict z-ordering so front card always layers on top
+      const zIndex = Math.round(100 - absDiff * 20);
+
+      card.style.transform = `translate3d(${translateX.toFixed(2)}px, 0px, ${translateZ.toFixed(2)}px) rotateY(${rotateY.toFixed(2)}deg) scale(${scale.toFixed(3)})`;
+      card.style.opacity = opacity.toFixed(3);
       card.style.zIndex = zIndex;
-      card.style.pointerEvents = absDiff < 1.4 ? 'auto' : 'none';
+      card.style.pointerEvents = absDiff < 1.2 ? 'auto' : 'none';
 
       if (absDiff < 0.45) {
         card.classList.add('lc-active');
@@ -119,30 +137,39 @@ export default function CoreBusiness() {
     });
   }, []);
 
-  // Initialize GSAP ScrollTrigger pinning and scroll-scrubbed rotation
+  // Initialize GSAP ScrollTrigger with true scrubbed animation for buttery-smooth scrolling
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
 
     const ctx = gsap.context(() => {
-      // Create scroll-pinned experience
-      const st = ScrollTrigger.create({
-        trigger: section,
-        start: 'top top',
-        end: '+=2500',
-        pin: true,
-        scrub: 0.5,
-        anticipatePin: 1,
-        onUpdate: (self) => {
-          const p = self.progress * (stages.length - 1);
-          currentProgressRef.current = p;
-          apply3DTransforms(p);
-          const rounded = Math.min(stages.length - 1, Math.max(0, Math.round(p)));
+      progressObjRef.current.value = 0;
+
+      // GSAP scrubbed tween provides true physics inertia and frame-interpolated progress
+      const tween = gsap.to(progressObjRef.current, {
+        value: stages.length - 1,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: section,
+          start: 'top top',
+          end: '+=2400',
+          pin: true,
+          scrub: 0.8,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+        },
+        onUpdate: () => {
+          const val = progressObjRef.current.value;
+          currentProgressRef.current = val;
+          apply3DTransforms(val);
+          setSmoothProgress(val);
+          const rounded = Math.min(stages.length - 1, Math.max(0, Math.round(val)));
           setActiveStage((prev) => (prev !== rounded ? rounded : prev));
         },
       });
 
-      scrollTriggerRef.current = st;
+      tweenRef.current = tween;
+      scrollTriggerRef.current = tween.scrollTrigger;
 
       // Initial transform rendering
       apply3DTransforms(0);
@@ -161,24 +188,46 @@ export default function CoreBusiness() {
     return () => ctx.revert();
   }, [apply3DTransforms]);
 
-  // Navigate directly to a specific stage
+  // Navigate directly to a specific stage with buttery-smooth easing
   const goToStage = useCallback((targetIndex) => {
     const clampedIndex = Math.min(stages.length - 1, Math.max(0, targetIndex));
-    const st = scrollTriggerRef.current;
+    const st = tweenRef.current?.scrollTrigger || scrollTriggerRef.current;
+
     if (st) {
       const scrollRange = st.end - st.start;
       const targetScroll = st.start + (clampedIndex / (stages.length - 1)) * scrollRange;
-      window.scrollTo({
-        top: targetScroll,
-        behavior: 'smooth',
-      });
+
+      if (window.__lenis) {
+        window.__lenis.scrollTo(targetScroll, {
+          duration: 0.95,
+          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        });
+      } else {
+        window.scrollTo({
+          top: targetScroll,
+          behavior: 'smooth',
+        });
+      }
     } else {
-      setActiveStage(clampedIndex);
-      apply3DTransforms(clampedIndex);
+      // If ScrollTrigger is not active, tween progressObj directly with GSAP
+      gsap.to(progressObjRef.current, {
+        value: clampedIndex,
+        duration: 0.75,
+        ease: 'power3.out',
+        onUpdate: () => {
+          const val = progressObjRef.current.value;
+          currentProgressRef.current = val;
+          apply3DTransforms(val);
+          setSmoothProgress(val);
+        },
+        onComplete: () => {
+          setActiveStage(clampedIndex);
+        },
+      });
     }
   }, [apply3DTransforms]);
 
-  // Touch and pointer dragging handlers for direct 3D wheel rotation
+  // Touch and pointer dragging handlers with fluid response and magnetic snapping
   const handlePointerDown = (e) => {
     if (e.button !== 0 && e.pointerType === 'mouse') return;
     dragRef.current = {
@@ -186,6 +235,8 @@ export default function CoreBusiness() {
       startX: e.clientX,
       startScroll: window.scrollY,
       hasMoved: false,
+      lastX: e.clientX,
+      velocity: 0,
     };
   };
 
@@ -196,20 +247,31 @@ export default function CoreBusiness() {
       dragRef.current.hasMoved = true;
     }
 
-    const st = scrollTriggerRef.current;
+    dragRef.current.velocity = e.clientX - dragRef.current.lastX;
+    dragRef.current.lastX = e.clientX;
+
+    const st = tweenRef.current?.scrollTrigger || scrollTriggerRef.current;
     if (!st) return;
 
     const scrollRange = st.end - st.start;
-    const scrollDelta = -(dx / 320) * (scrollRange / (stages.length - 1));
+    const scrollDelta = -(dx / 380) * (scrollRange / (stages.length - 1));
     const newScroll = Math.max(st.start, Math.min(st.end, dragRef.current.startScroll + scrollDelta));
 
-    window.scrollTo({
-      top: newScroll,
-      behavior: 'auto',
-    });
+    if (window.__lenis) {
+      window.__lenis.scrollTo(newScroll, { immediate: true });
+    } else {
+      window.scrollTo(0, newScroll);
+    }
   };
 
   const handlePointerUp = () => {
+    if (dragRef.current.isDragging && dragRef.current.hasMoved) {
+      // Magnetic snap to nearest stage on release
+      const p = currentProgressRef.current;
+      const flick = dragRef.current.velocity < -4 ? 0.35 : dragRef.current.velocity > 4 ? -0.35 : 0;
+      const targetStage = Math.min(stages.length - 1, Math.max(0, Math.round(p + flick)));
+      goToStage(targetStage);
+    }
     dragRef.current.isDragging = false;
   };
 
@@ -365,7 +427,7 @@ export default function CoreBusiness() {
           <div className="lifecycle-progress-bar-bg">
             <div
               className="lifecycle-progress-bar-fill"
-              style={{ width: `${(activeStage / (stages.length - 1)) * 100}%` }}
+              style={{ width: `${(smoothProgress / (stages.length - 1)) * 100}%` }}
             />
           </div>
 

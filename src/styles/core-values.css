@@ -1,14 +1,46 @@
 /* ========================================
-   CORE VALUES RESPONSIVE GRID (FULL WIDTH & DETAILED)
+   CORE VALUES - HIGH VOLTAGE MAGNETIC FLUX & 3D INTERACTIVE TILT
    THEME: OPTION 5 - PRECISION STEEL & INDUSTRIAL BLUE
    ======================================== */
 .core-values-compact {
   background: #090C10;
-  padding: clamp(48px, 5vw, 80px) 0;
+  padding: clamp(60px, 6vw, 96px) 0;
   position: relative;
   overflow: hidden;
   border-top: 1px solid rgba(0, 102, 255, 0.16);
   width: 100%;
+}
+
+/* Background blueprint grid */
+.core-values-bg-grid {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(0, 102, 255, 0.18) 1.2px, transparent 1.2px);
+  background-size: 34px 34px;
+  opacity: 0.45;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Atmospheric magnetic field tracking section mouse cursor */
+.core-values-compact::before {
+  content: '';
+  position: absolute;
+  top: var(--sec-mouse-y, -1000px);
+  left: var(--sec-mouse-x, -1000px);
+  width: 800px;
+  height: 800px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(
+    circle,
+    rgba(0, 102, 255, 0.16) 0%,
+    rgba(0, 210, 255, 0.05) 35%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: 0;
+  transition: opacity 0.4s ease;
+  filter: blur(50px);
 }
 
 .core-values-compact-inner {
@@ -17,10 +49,12 @@
   margin: 0;
   padding: 0 clamp(20px, 3.5vw, 56px);
   box-sizing: border-box;
+  position: relative;
+  z-index: 1;
 }
 
 .core-values-compact-header {
-  margin-bottom: 36px;
+  margin-bottom: 42px;
 }
 
 .core-values-statement {
@@ -34,123 +68,347 @@
   padding-left: 18px;
 }
 
+/* Grid layout */
 .core-values-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
-  gap: 24px;
+  gap: 26px;
   width: 100%;
 }
 
+/* Card wrapper for 3D perspective */
+.core-val-card-wrapper {
+  perspective: 1100px;
+  height: 100%;
+}
+
+/* Main Card */
 .core-val-card {
-  background: rgba(22, 29, 41, 0.72);
-  border: 1.5px solid rgba(0, 102, 255, 0.18);
+  --mouse-x: 50%;
+  --mouse-y: 50%;
+  --rot-x: 0deg;
+  --rot-y: 0deg;
+  position: relative;
   border-radius: 18px;
-  padding: 30px 26px;
+  background: rgba(18, 25, 36, 0.72);
+  border: 1.5px solid rgba(0, 102, 255, 0.22);
+  padding: 32px 28px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 18px;
-  transition: all 0.35s ease;
-  position: relative;
-  opacity: 1 !important;
-  visibility: visible !important;
+  gap: 20px;
+  height: 100%;
+  transform-style: preserve-3d;
+  transform: perspective(1000px) rotateX(var(--rot-x)) rotateY(var(--rot-y)) translateZ(0);
+  transition: transform 0.12s cubic-bezier(0.2, 0.8, 0.2, 1),
+              box-shadow 0.35s ease,
+              border-color 0.35s ease,
+              background 0.35s ease;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  cursor: default;
+  will-change: transform;
 }
 
-.core-val-card::before {
-  content: '';
+.core-val-card:hover,
+.core-val-card.is-hovered {
+  background: rgba(22, 31, 46, 0.88);
+  border-color: rgba(0, 210, 255, 0.45);
+  box-shadow: 
+    0 22px 45px -15px rgba(0, 0, 0, 0.75),
+    0 0 28px -5px rgba(0, 102, 255, 0.3),
+    0 0 16px -2px rgba(0, 210, 255, 0.22);
+}
+
+/* Electric Border Arc Follower */
+.core-val-border-glow {
+  position: absolute;
+  inset: -1.5px;
+  border-radius: inherit;
+  padding: 1.5px;
+  box-sizing: border-box;
+  background: radial-gradient(
+    340px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(0, 210, 255, 1) 0%,
+    rgba(0, 102, 255, 0.8) 35%,
+    rgba(0, 102, 255, 0.15) 65%,
+    transparent 80%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 3;
+}
+
+.core-val-card:hover .core-val-border-glow,
+.core-val-card.is-hovered .core-val-border-glow {
+  opacity: 1;
+}
+
+/* Card Background Layers */
+.core-val-card-bg {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Top energy beam line */
+.core-val-top-beam {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, var(--color-royal-blue), var(--color-cyan-spark));
-  opacity: 0.7;
+  height: 3px;
+  background: linear-gradient(90deg, rgba(0, 102, 255, 0.4), var(--color-cyan-spark) 50%, rgba(0, 102, 255, 0.4));
+  opacity: 0.55;
+  transition: opacity 0.35s ease, box-shadow 0.35s ease;
+}
+
+.core-val-card:hover .core-val-top-beam,
+.core-val-card.is-hovered .core-val-top-beam {
+  opacity: 1;
+  box-shadow: 0 0 14px var(--color-cyan-spark);
+}
+
+/* Circuit grid watermark */
+.core-val-circuit-lines {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(0, 102, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 102, 255, 0.05) 1px, transparent 1px);
+  background-size: 20px 20px;
+  opacity: 0.5;
+}
+
+/* Magnetic flux spotlight */
+.core-val-spotlight {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    420px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(0, 210, 255, 0.16) 0%,
+    rgba(0, 102, 255, 0.06) 40%,
+    transparent 70%
+  );
+  opacity: 0;
   transition: opacity 0.3s ease;
 }
 
-.core-val-card:hover {
-  background: rgba(30, 39, 56, 0.85);
-  border-color: var(--color-cyan-spark);
-  transform: translateY(-6px);
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 102, 255, 0.2);
+.core-val-card:hover .core-val-spotlight,
+.core-val-card.is-hovered .core-val-spotlight {
+  opacity: 1;
 }
 
-.core-val-card:hover::before {
-  opacity: 1;
+/* 3D Depth Content Layer */
+.core-val-content {
+  position: relative;
+  z-index: 2;
+  transform-style: preserve-3d;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  gap: 16px;
 }
 
 .core-val-top {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  transform: translateZ(28px);
+  transition: transform 0.12s ease-out;
+}
+
+.core-val-badge-group {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
 }
 
 .core-val-num {
   font-family: var(--font-mono);
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 800;
   letter-spacing: -0.02em;
   color: var(--color-cyan-spark);
+  text-shadow: 0 0 10px rgba(0, 210, 255, 0.4);
+}
+
+.core-val-subtag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: rgba(0, 102, 255, 0.12);
+  border: 1px solid rgba(0, 102, 255, 0.28);
+  transition: color 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+}
+
+.core-val-card:hover .core-val-subtag,
+.core-val-card.is-hovered .core-val-subtag {
+  color: #FFFFFF;
+  border-color: rgba(0, 210, 255, 0.5);
+  background: rgba(0, 102, 255, 0.22);
+}
+
+/* Live power diode */
+.core-val-dot-wrapper {
+  position: relative;
+  width: 14px;
+  height: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .core-val-dot {
-  width: 10px;
-  height: 10px;
+  width: 9px;
+  height: 9px;
   border-radius: 50%;
-  background: rgba(0, 102, 255, 0.4);
+  background: rgba(0, 210, 255, 0.5);
+  box-shadow: 0 0 8px rgba(0, 102, 255, 0.6);
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 2;
 }
 
-.core-val-card:hover .core-val-dot {
+.core-val-dot-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1.5px solid var(--color-cyan-spark);
+  opacity: 0;
+  transform: scale(0.6);
+  transition: opacity 0.3s ease;
+}
+
+.core-val-card:hover .core-val-dot,
+.core-val-card.is-hovered .core-val-dot {
   background: var(--color-cyan-spark);
-  box-shadow: 0 0 12px var(--color-cyan-spark);
+  box-shadow: 0 0 14px var(--color-cyan-spark), 0 0 24px rgba(0, 210, 255, 0.8);
+}
+
+.core-val-card:hover .core-val-dot-ring,
+.core-val-card.is-hovered .core-val-dot-ring {
+  opacity: 1;
+  animation: val-pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+}
+
+@keyframes val-pulse-ring {
+  0% {
+    transform: scale(0.7);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
 }
 
 .core-val-title {
   font-family: var(--font-heading);
-  font-size: clamp(19px, 1.8vw, 25px);
+  font-size: clamp(20px, 1.8vw, 25px);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: -0.02em;
   color: var(--color-white);
-  line-height: 1.2;
-  margin: 0;
+  line-height: 1.25;
+  margin: 12px 0 8px 0;
+  transform: translateZ(24px);
+  transition: transform 0.12s ease-out, color 0.3s ease;
+}
+
+.core-val-card:hover .core-val-title,
+.core-val-card.is-hovered .core-val-title {
+  color: #FFFFFF;
+  text-shadow: 0 0 20px rgba(0, 210, 255, 0.35);
 }
 
 .core-val-desc {
   font-family: var(--font-body);
   font-size: 14px;
-  line-height: 1.6;
-  color: rgba(255, 255, 255, 0.78);
+  line-height: 1.62;
+  color: rgba(255, 255, 255, 0.82);
   margin: 0;
   font-weight: 450;
+  transform: translateZ(18px);
+  transition: transform 0.12s ease-out;
 }
 
 .core-val-points {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
   margin-top: 6px;
   padding: 0;
   list-style: none;
+  transform: translateZ(14px);
+  transition: transform 0.12s ease-out;
 }
 
 .core-val-point {
   font-family: var(--font-body);
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.7);
+  font-size: 13.5px;
+  color: rgba(255, 255, 255, 0.74);
   line-height: 1.5;
   display: flex;
   align-items: flex-start;
-  gap: 8px;
+  gap: 9px;
+  transition: color 0.25s ease;
 }
 
-.core-val-point span:first-child {
+.core-val-card:hover .core-val-point,
+.core-val-card.is-hovered .core-val-point {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.core-val-spark-bullet {
   color: var(--color-cyan-spark);
-  font-weight: bold;
+  font-size: 11px;
+  line-height: 1.4;
+  flex-shrink: 0;
+  margin-top: 2px;
+  transition: transform 0.25s ease, text-shadow 0.25s ease;
 }
 
-@media (max-width: 768px) {
+.core-val-card:hover .core-val-spark-bullet,
+.core-val-card.is-hovered .core-val-spark-bullet {
+  transform: scale(1.2);
+  text-shadow: 0 0 8px var(--color-cyan-spark);
+}
+
+/* Mobile & Touch Responsive */
+@media (max-width: 900px) {
   .core-values-grid {
     grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .core-val-card {
+    padding: 24px 20px;
+  }
+}
+
+@media (hover: none) or (max-width: 768px) {
+  .core-val-card {
+    transform: none !important;
+  }
+  .core-val-top,
+  .core-val-title,
+  .core-val-desc,
+  .core-val-points {
+    transform: none !important;
   }
 }

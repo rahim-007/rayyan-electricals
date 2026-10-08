@@ -56,6 +56,8 @@ export default function App() {
       infinite: false,
     });
 
+    window.__lenis = lenis;
+
     // Connect Lenis to GSAP ScrollTrigger
     lenis.on('scroll', ScrollTrigger.update);
 
@@ -79,6 +81,7 @@ export default function App() {
 
     return () => {
       clearTimeout(refreshTimer);
+      window.__lenis = null;
       lenis.destroy();
       gsap.ticker.remove((time) => lenis.raf(time * 1000));
     };

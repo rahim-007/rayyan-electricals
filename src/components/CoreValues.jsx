@@ -1,3 +1,4 @@
+import { useRef, useState } from 'react';
 import '../styles/core-values.css';
 
 const values = [
@@ -63,9 +64,126 @@ const values = [
   },
 ];
 
-export default function CoreValues() {
+function ValueCard({ val }) {
+  const cardRef = useRef(null);
+  const [isHovered, setIsHovered] = useState(false);
+  const rafId = useRef(null);
+
+  const handleMouseMove = (e) => {
+    const card = cardRef.current;
+    if (!card) return;
+
+    if (rafId.current) {
+      cancelAnimationFrame(rafId.current);
+    }
+
+    rafId.current = requestAnimationFrame(() => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+
+      // Subtle 3D tilt angles (max ~6.5 degrees for tactile precision feel)
+      const rotX = ((y - centerY) / centerY) * -6.5;
+      const rotY = ((x - centerX) / centerX) * 6.5;
+
+      card.style.setProperty('--mouse-x', `${x}px`);
+      card.style.setProperty('--mouse-y', `${y}px`);
+      card.style.setProperty('--rot-x', `${rotX.toFixed(2)}deg`);
+      card.style.setProperty('--rot-y', `${rotY.toFixed(2)}deg`);
+    });
+  };
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+    if (rafId.current) {
+      cancelAnimationFrame(rafId.current);
+    }
+    const card = cardRef.current;
+    if (!card) return;
+    card.style.setProperty('--rot-x', '0deg');
+    card.style.setProperty('--rot-y', '0deg');
+  };
+
   return (
-    <section id="core-values" className="core-values-compact">
+    <div className="core-val-card-wrapper">
+      <div
+        ref={cardRef}
+        className={`core-val-card ${isHovered ? 'is-hovered' : ''}`}
+        onMouseMove={handleMouseMove}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
+        {/* Dynamic Electric Border Arc Follower */}
+        <div className="core-val-border-glow" aria-hidden="true" />
+
+        {/* Ambient Card Background & Circuit Lines */}
+        <div className="core-val-card-bg" aria-hidden="true">
+          <div className="core-val-top-beam" />
+          <div className="core-val-circuit-lines" />
+          <div className="core-val-spotlight" />
+        </div>
+
+        {/* 3D Depth Layer for Content */}
+        <div className="core-val-content">
+          <div className="core-val-top">
+            <div className="core-val-badge-group">
+              <span className="core-val-num">{val.number}</span>
+              <span className="core-val-subtag">SEC // {val.number}</span>
+            </div>
+            <div className="core-val-dot-wrapper">
+              <span className="core-val-dot-ring" />
+              <span className="core-val-dot" />
+            </div>
+          </div>
+
+          <h3 className="core-val-title">
+            {val.title}
+          </h3>
+
+          <p className="core-val-desc">{val.desc}</p>
+
+          <ul className="core-val-points">
+            {val.points.map((pt, idx) => (
+              <li key={idx} className="core-val-point">
+                <span className="core-val-spark-bullet" aria-hidden="true">⚡</span>
+                <span>{pt}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function CoreValues() {
+  const sectionRef = useRef(null);
+
+  const handleSectionMouseMove = (e) => {
+    const section = sectionRef.current;
+    if (!section) return;
+    const rect = section.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    section.style.setProperty('--sec-mouse-x', `${x}px`);
+    section.style.setProperty('--sec-mouse-y', `${y}px`);
+  };
+
+  return (
+    <section
+      id="core-values"
+      ref={sectionRef}
+      className="core-values-compact"
+      onMouseMove={handleSectionMouseMove}
+    >
+      <div className="core-values-bg-grid" aria-hidden="true" />
       <div className="core-values-compact-inner">
         <div className="core-values-compact-header">
           <div className="vm-label">
@@ -83,26 +201,7 @@ export default function CoreValues() {
 
         <div className="core-values-grid">
           {values.map((val) => (
-            <div key={val.number} className="core-val-card">
-              <div>
-                <div className="core-val-top">
-                  <span className="core-val-num">{val.number}</span>
-                  <span className="core-val-dot" />
-                </div>
-                <h3 className="core-val-title" style={{ marginTop: '12px', marginBottom: '8px' }}>
-                  {val.title}
-                </h3>
-                <p className="core-val-desc">{val.desc}</p>
-                <ul className="core-val-points">
-                  {val.points.map((pt, idx) => (
-                    <li key={idx} className="core-val-point">
-                      <span>•</span>
-                      <span>{pt}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
+            <ValueCard key={val.number} val={val} />
           ))}
         </div>
       </div>
