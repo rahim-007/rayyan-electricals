@@ -50,7 +50,7 @@
   font-size: clamp(28px, 3.6vw, 56px);
   font-weight: 800;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.12);
+  color: rgba(255, 255, 255, 0.12);
   letter-spacing: -0.025em;
   transition: color 0.4s ease;
   cursor: default;
@@ -62,7 +62,7 @@
 
 .intro-step-arrow {
   font-size: clamp(24px, 3vw, 48px);
-  color: rgba(255,184,28,0.2);
+  color: rgba(255, 184, 28, 0.2);
   font-weight: 300;
 }
 
@@ -138,7 +138,7 @@
   font-family: var(--font-body);
   font-size: clamp(16px, 1.4vw, 22px);
   line-height: 1.7;
-  color: rgba(255,255,255,0.7);
+  color: rgba(255, 255, 255, 0.7);
   border-left: 2px solid var(--color-golden);
   padding-left: 24px;
 }
@@ -189,7 +189,7 @@
   flex-shrink: 0;
   position: relative;
   overflow: hidden;
-  border-right: 1px solid rgba(255,255,255,0.06);
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
   display: flex;
   align-items: flex-end;
   padding: 48px;
@@ -215,7 +215,7 @@
   font-size: 14px;
   font-weight: 500;
   letter-spacing: 0.1em;
-  color: rgba(255,184,28,0.4);
+  color: rgba(255, 184, 28, 0.4);
 }
 
 .value-panel-content {
@@ -251,295 +251,767 @@
   width: 80px;
 }
 
-/* Core Business - Widescreen Fully Occupied */
-.core-business {
-  background: var(--color-off-white);
-  padding: clamp(64px, 8vh, 120px) 0;
+/* ========================
+   LIFECYCLE 3D CAROUSEL (6-CARD ROTATING STAGE)
+   ======================== */
+
+.lifecycle-section {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  height: 100vh;
+  background: #070B12;
   overflow: hidden;
-  width: 100%;
-}
-
-.core-business-inner {
-  width: 100%;
-  max-width: 100%;
-  margin: 0;
-  padding: 0 clamp(28px, 4.5vw, 80px);
-  box-sizing: border-box;
-}
-
-.core-business-top {
-  margin-bottom: clamp(40px, 5vh, 64px);
   display: flex;
   flex-direction: column;
-  gap: 12px;
-}
-
-.core-business-tagline {
-  display: inline-flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 8px;
-  font-family: var(--font-body);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--color-royal-blue);
+  box-sizing: border-box;
+  padding-top: clamp(84px, 11vh, 110px);
+  padding-bottom: clamp(14px, 2vh, 26px);
+  padding-left: clamp(16px, 3vw, 40px);
+  padding-right: clamp(16px, 3vw, 40px);
+  user-select: none;
 }
 
-.core-tagline-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--color-royal-blue);
-  box-shadow: 0 0 10px rgba(0, 102, 255, 0.6);
-}
-
-.core-business-main-title {
-  font-family: var(--font-heading);
-  font-size: clamp(52px, 6.8vw, 116px);
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: -0.015em;
-  line-height: 0.92;
-  color: #0F172A;
-}
-
-.core-business-main-title .lifecycle-accent {
-  color: var(--color-royal-blue);
-}
-
-/* Widescreen Panoramic Sticky Layout */
-.core-business-layout {
-  display: grid;
-  grid-template-columns: minmax(0, 1.12fr) minmax(0, 1fr);
-  gap: clamp(40px, 5vw, 84px);
-  align-items: start;
-  width: 100%;
-}
-
-.core-business-sticky {
-  position: sticky;
-  top: 100px;
-  width: 100%;
-}
-
-.stage-image-wrap {
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-  aspect-ratio: 16 / 11;
-  border-radius: 12px;
-  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.18), 0 0 0 1px rgba(0, 102, 255, 0.15);
-  background: #0B111A;
-}
-
-.stage-image-wrap img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  will-change: transform, filter;
-}
-
-/* CAD Laser Shutter Blade Line */
-.stage-shutter-blade {
+/* Ambient backlight & circuit grid */
+.lifecycle-bg-glow {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, transparent, #00d4ff, #ffffff, #00d4ff, transparent);
-  box-shadow: 0 0 16px #00d4ff, 0 0 32px rgba(0, 212, 255, 0.8);
-  z-index: 5;
+  top: 50%;
+  left: 50%;
+  width: clamp(600px, 80vw, 1200px);
+  height: clamp(600px, 80vh, 1000px);
+  background: radial-gradient(circle at center, rgba(0, 102, 255, 0.12) 0%, rgba(0, 210, 255, 0.04) 40%, transparent 70%);
+  transform: translate(-50%, -50%);
   pointer-events: none;
-  opacity: 0;
+  z-index: 1;
 }
 
-/* CAD Technical Corner Telemetry Tag */
-.stage-cad-badge {
+.lifecycle-grid-mesh {
   position: absolute;
-  bottom: 18px;
-  left: 18px;
-  z-index: 4;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 64px 64px;
+  pointer-events: none;
+  z-index: 1;
+  mask-image: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.6) 0%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.6) 0%, transparent 80%);
+}
+
+/* Header */
+.lifecycle-header {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto clamp(6px, 1vh, 12px);
+  padding-top: 0;
+}
+
+.lifecycle-tagline {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: rgba(11, 17, 26, 0.88);
-  border: 1px solid rgba(0, 102, 255, 0.45);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  padding: 8px 14px;
-  border-radius: 6px;
   font-family: var(--font-body);
-  font-size: 11px;
+  font-size: clamp(9.5px, 0.75vw, 11px);
   font-weight: 700;
-  letter-spacing: 0.12em;
-  color: var(--color-cyan-spark);
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+  color: var(--color-cyan-spark);
+  background: rgba(0, 210, 255, 0.06);
+  border: 1px solid rgba(0, 210, 255, 0.22);
+  padding: 3px 12px;
+  border-radius: 999px;
+  margin-bottom: clamp(4px, 0.7vh, 8px);
 }
 
-.stage-cad-dot {
-  width: 7px;
-  height: 7px;
+.lifecycle-tagline-dot {
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   background: var(--color-cyan-spark);
   box-shadow: 0 0 10px var(--color-cyan-spark);
-  animation: cadPulse 2s infinite ease-in-out;
+  animation: lcPulse 2s infinite ease-in-out;
 }
 
-@keyframes cadPulse {
+@keyframes lcPulse {
   0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.4; transform: scale(0.8); }
+  50% { opacity: 0.4; transform: scale(0.7); }
 }
 
-.stage-counter {
-  font-family: var(--font-number);
-  font-size: clamp(100px, 13vw, 210px);
-  font-weight: 900;
-  color: rgba(15, 23, 42, 0.08);
-  position: absolute;
-  top: -24px;
-  right: -10px;
-  line-height: 1;
-  pointer-events: none;
-  transform-origin: 75% 25%;
-  will-change: transform, opacity;
-}
-
-/* Right Stages Container - Broad & Fully Occupied */
-.core-stages {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  width: 100%;
-}
-
-.core-stage {
-  padding: clamp(24px, 2.8vh, 36px) clamp(16px, 2vw, 28px);
-  border-top: 1px solid rgba(15, 23, 42, 0.1);
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  user-select: none;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.core-stage:hover:not(.active) {
-  background: rgba(0, 102, 255, 0.025);
-  transform: translateX(4px);
-}
-
-.core-stage.active {
-  background: rgba(0, 102, 255, 0.04);
-  border-color: rgba(0, 102, 255, 0.3);
-  box-shadow: inset 4px 0 0 var(--color-royal-blue);
-}
-
-.core-stage:last-child {
-  border-bottom: 1px solid rgba(15, 23, 42, 0.1);
-}
-
-.core-stage-header {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  margin-bottom: 8px;
-}
-
-.core-stage-number {
-  font-family: var(--font-number);
-  font-size: clamp(13px, 1.1vw, 16px);
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  color: var(--color-royal-blue);
-  min-width: 32px;
-}
-
-.core-stage-title {
+.lifecycle-section-title {
   font-family: var(--font-heading);
-  font-size: clamp(26px, 2.8vw, 44px);
-  font-weight: 800;
+  font-size: clamp(24px, 3.2vw, 46px);
+  font-weight: 900;
   text-transform: uppercase;
-  color: #0F172A;
-  letter-spacing: -0.01em;
-  transition: color 0.3s ease;
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 12px;
+  letter-spacing: -0.025em;
+  line-height: 1.02;
+  color: #ffffff;
+  margin: 0 0 clamp(4px, 0.6vh, 6px);
 }
 
-.core-stage.active .core-stage-title {
+.lifecycle-accent {
   color: var(--color-royal-blue);
+  text-shadow: 0 0 45px rgba(0, 102, 255, 0.45);
 }
 
-/* Active Phase Badge */
-.core-stage-active-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
+.lifecycle-subtitle {
   font-family: var(--font-body);
-  font-size: 9.5px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--color-royal-blue);
-  background: rgba(0, 102, 255, 0.08);
-  border: 1px solid rgba(0, 102, 255, 0.28);
-  padding: 3px 9px;
-  border-radius: 4px;
-}
-
-.core-stage-desc {
-  font-family: var(--font-body);
-  font-size: clamp(13.5px, 0.95vw, 15.5px);
-  line-height: 1.65;
-  color: #334155;
-  padding-left: clamp(36px, 3.2vw, 50px);
-  max-width: 100%;
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
-  opacity: 0;
-}
-
-.core-stage.active .core-stage-desc {
-  max-height: 320px;
-  opacity: 1;
-}
-
-/* Technical Deliverables Chips Matrix */
-.stage-deliverables {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 14px;
-  padding-top: 12px;
-  border-top: 1px dashed rgba(15, 23, 42, 0.15);
-}
-
-.stage-deliverable-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  background: rgba(0, 102, 255, 0.06);
-  border: 1px solid rgba(0, 102, 255, 0.2);
-  border-radius: 4px;
-  padding: 4px 10px;
-  font-family: var(--font-body);
-  font-size: 11px;
-  font-weight: 600;
-  color: #0F172A;
+  font-size: clamp(11.5px, 0.85vw, 13.5px);
+  color: rgba(255, 255, 255, 0.55);
+  margin: 0;
   letter-spacing: 0.02em;
 }
 
-.stage-deliverable-chip::before {
-  content: '✓';
-  color: var(--color-royal-blue);
-  font-weight: bold;
-  font-size: 10px;
+/* ---- 3D Carousel Stage Area ---- */
+.lifecycle-stage-area {
+  position: relative;
+  z-index: 5;
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1300px;
+  perspective-origin: 50% 52%;
+  overflow: visible;
+  touch-action: pan-y;
+  cursor: grab;
 }
+
+.lifecycle-stage-area:active {
+  cursor: grabbing;
+}
+
+/* 3D Floor Grid with Depth Reflection */
+.lifecycle-stage-floor {
+  position: absolute;
+  bottom: 8%;
+  left: 50%;
+  width: clamp(600px, 75vw, 1100px);
+  height: 280px;
+  transform: translate(-50%, 0) rotateX(76deg);
+  transform-style: preserve-3d;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(0, 102, 255, 0.15) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 102, 255, 0.15) 1px, transparent 1px);
+  background-size: 32px 32px;
+  mask-image: radial-gradient(ellipse at center, rgba(0,0,0,0.85) 0%, transparent 72%);
+  -webkit-mask-image: radial-gradient(ellipse at center, rgba(0,0,0,0.85) 0%, transparent 72%);
+  z-index: 0;
+}
+
+.lifecycle-floor-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, rgba(0, 210, 255, 0.16) 0%, transparent 60%);
+}
+
+/* 3D Carousel Arc Container */
+.lifecycle-carousel {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-style: preserve-3d;
+  z-index: 2;
+}
+
+/* ---- Individual 3D Card ---- */
+.lifecycle-card {
+  position: absolute;
+  width: clamp(290px, 26vw, 380px);
+  max-width: 90vw;
+  background: rgba(14, 20, 32, 0.94);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  overflow: hidden;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65);
+  cursor: pointer;
+}
+
+.lifecycle-card.lc-active {
+  border-color: rgba(0, 210, 255, 0.5);
+  box-shadow:
+    0 0 0 1px rgba(0, 210, 255, 0.3),
+    0 24px 60px rgba(0, 0, 0, 0.8),
+    0 0 50px rgba(0, 102, 255, 0.25);
+}
+
+/* Card Visual / Image Section */
+.lifecycle-card-visual {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  max-height: 175px;
+  overflow: hidden;
+  background: #090E17;
+}
+
+.lifecycle-card-visual img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  display: block;
+}
+
+.lifecycle-card.lc-active .lifecycle-card-visual img {
+  transform: scale(1.05);
+}
+
+.lifecycle-card-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(7, 11, 18, 0.1) 0%, rgba(14, 20, 32, 0.95) 100%);
+  pointer-events: none;
+}
+
+.lifecycle-card-scanline {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0.02) 0px,
+    rgba(255, 255, 255, 0.02) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+/* Telemetry Badge */
+.lifecycle-telemetry-tag {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(9, 14, 23, 0.88);
+  border: 1px solid rgba(0, 210, 255, 0.35);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 3px 8px;
+  border-radius: 5px;
+  font-family: var(--font-body);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--color-cyan-spark);
+  text-transform: uppercase;
+}
+
+.telemetry-pulse {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--color-cyan-spark);
+  box-shadow: 0 0 8px var(--color-cyan-spark);
+  animation: lcPulse 1.8s infinite ease-in-out;
+}
+
+/* Large Watermark Number */
+.lifecycle-watermark {
+  position: absolute;
+  bottom: -15px;
+  right: 12px;
+  font-family: var(--font-mono, monospace);
+  font-size: clamp(65px, 7vw, 95px);
+  font-weight: 900;
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.04);
+  pointer-events: none;
+  letter-spacing: -0.05em;
+}
+
+/* Card Body */
+.lifecycle-card-body {
+  padding: 10px 16px 12px;
+  position: relative;
+  z-index: 2;
+}
+
+.lifecycle-card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.lifecycle-phase-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-body);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-cyan-spark);
+  background: rgba(0, 210, 255, 0.08);
+  border: 1px solid rgba(0, 210, 255, 0.25);
+  padding: 2.5px 7px;
+  border-radius: 4px;
+}
+
+.phase-badge-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--color-cyan-spark);
+}
+
+.lifecycle-phase-scope {
+  font-family: var(--font-body);
+  font-size: 9.5px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.45);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.lifecycle-card-title {
+  font-family: var(--font-heading);
+  font-size: clamp(17px, 1.7vw, 22px);
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #ffffff;
+  letter-spacing: -0.01em;
+  margin: 0 0 5px;
+  line-height: 1.15;
+}
+
+.lifecycle-card-desc {
+  font-family: var(--font-body);
+  font-size: clamp(11px, 0.8vw, 12.5px);
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0 0 10px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Deliverable Chips */
+.lifecycle-card-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 10px;
+}
+
+.lifecycle-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(0, 102, 255, 0.08);
+  border: 1px solid rgba(0, 102, 255, 0.2);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-family: var(--font-body);
+  font-size: 9px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.75);
+  letter-spacing: 0.01em;
+}
+
+.lifecycle-chip::before {
+  content: '✓';
+  color: var(--color-cyan-spark);
+  font-weight: 700;
+  font-size: 8.5px;
+}
+
+/* Card Bottom Footer */
+.lifecycle-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.lifecycle-status-tag {
+  font-family: var(--font-body);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.lifecycle-card.lc-active .lifecycle-status-tag {
+  color: var(--color-cyan-spark);
+}
+
+.lifecycle-inspect-arrow {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 13px;
+  transition: transform 0.25s ease, color 0.25s ease;
+}
+
+.lifecycle-card:hover .lifecycle-inspect-arrow {
+  transform: translateX(3px);
+  color: var(--color-cyan-spark);
+}
+
+/* ---- Nav Arrow Buttons ---- */
+.lifecycle-nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 15;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(14, 20, 32, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  outline: none;
+}
+
+.lifecycle-nav-prev {
+  left: clamp(12px, 3vw, 40px);
+}
+
+.lifecycle-nav-next {
+  right: clamp(12px, 3vw, 40px);
+}
+
+.lifecycle-nav-btn:hover:not(:disabled) {
+  background: var(--color-royal-blue);
+  border-color: var(--color-cyan-spark);
+  box-shadow: 0 0 24px rgba(0, 102, 255, 0.5);
+  transform: translateY(-50%) scale(1.08);
+}
+
+.lifecycle-nav-btn:disabled {
+  opacity: 0.2;
+  cursor: not-allowed;
+}
+
+/* ---- Bottom Progress & Stage Selector ---- */
+.lifecycle-progress-wrap {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 900px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(8px, 1.2vh, 14px);
+  padding-bottom: clamp(6px, 1vh, 12px);
+}
+
+.lifecycle-progress-summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-size: clamp(11px, 0.85vw, 13px);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.lifecycle-current-num {
+  font-family: var(--font-mono, monospace);
+  font-weight: 700;
+  color: var(--color-cyan-spark);
+}
+
+.lifecycle-sep {
+  color: rgba(255, 255, 255, 0.25);
+}
+
+.lifecycle-phase-name {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  color: #ffffff;
+}
+
+/* Track & Connected Step Nodes */
+.lifecycle-progress-track {
+  position: relative;
+  width: 100%;
+  max-width: 640px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 0;
+}
+
+.lifecycle-progress-bar-bg {
+  position: absolute;
+  top: 50%;
+  left: 20px;
+  right: 20px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.08);
+  transform: translateY(-50%);
+  z-index: 1;
+  border-radius: 2px;
+}
+
+.lifecycle-progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-royal-blue), var(--color-cyan-spark));
+  box-shadow: 0 0 12px rgba(0, 210, 255, 0.6);
+  border-radius: 2px;
+  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.lifecycle-dots-row {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.lifecycle-step-dot {
+  position: relative;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(14, 20, 32, 0.95);
+  border: 1.5px solid rgba(255, 255, 255, 0.14);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  outline: none;
+  padding: 0;
+}
+
+.lifecycle-dot-number {
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.45);
+  letter-spacing: 0.02em;
+  transition: color 0.3s ease;
+}
+
+.lifecycle-step-dot.passed {
+  background: rgba(0, 102, 255, 0.25);
+  border-color: rgba(0, 102, 255, 0.6);
+}
+
+.lifecycle-step-dot.passed .lifecycle-dot-number {
+  color: #ffffff;
+}
+
+.lifecycle-step-dot.active {
+  background: var(--color-royal-blue);
+  border-color: var(--color-cyan-spark);
+  box-shadow: 0 0 20px rgba(0, 210, 255, 0.5), 0 0 0 4px rgba(0, 102, 255, 0.2);
+  transform: scale(1.15);
+}
+
+.lifecycle-step-dot.active .lifecycle-dot-number {
+  color: #ffffff;
+}
+
+/* Tooltip on dot hover */
+.lifecycle-dot-tooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  background: rgba(9, 14, 23, 0.95);
+  border: 1px solid rgba(0, 210, 255, 0.3);
+  padding: 4px 10px;
+  border-radius: 5px;
+  font-family: var(--font-body);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #ffffff;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: all 0.2s ease;
+  z-index: 20;
+}
+
+.lifecycle-step-dot:hover .lifecycle-dot-tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Scroll prompt */
+.lifecycle-scroll-prompt {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.scroll-prompt-icon {
+  width: 14px;
+  height: 22px;
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  border-radius: 999px;
+  position: relative;
+  display: inline-block;
+}
+
+.scroll-prompt-wheel {
+  position: absolute;
+  top: 3px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 4px;
+  background: var(--color-cyan-spark);
+  border-radius: 1px;
+  animation: lcWheelScroll 1.6s infinite ease-in-out;
+}
+
+@keyframes lcWheelScroll {
+  0% { opacity: 0; transform: translate(-50%, 0); }
+  35% { opacity: 1; }
+  100% { opacity: 0; transform: translate(-50%, 8px); }
+}
+
+/* ---- Responsive Styles ---- */
+@media (max-width: 1024px) {
+  .lifecycle-card {
+    width: clamp(300px, 42vw, 380px);
+  }
+
+  .lifecycle-stage-area {
+    perspective: 1100px;
+  }
+}
+
+@media (max-width: 768px) {
+  .lifecycle-section {
+    padding: 12px 12px 16px;
+    height: 100vh;
+  }
+
+  .lifecycle-header {
+    padding-top: 4px;
+  }
+
+  .lifecycle-section-title {
+    font-size: clamp(22px, 6.5vw, 32px);
+  }
+
+  .lifecycle-subtitle {
+    font-size: 11px;
+    display: none;
+  }
+
+  .lifecycle-tagline {
+    font-size: 9px;
+    padding: 3px 10px;
+    margin-bottom: 4px;
+  }
+
+  .lifecycle-card {
+    width: clamp(280px, 86vw, 340px);
+    border-radius: 14px;
+  }
+
+  .lifecycle-card-visual {
+    aspect-ratio: 16 / 9.5;
+    max-height: 160px;
+  }
+
+  .lifecycle-card-body {
+    padding: 12px 14px 14px;
+  }
+
+  .lifecycle-card-title {
+    font-size: 18px;
+    margin-bottom: 4px;
+  }
+
+  .lifecycle-card-desc {
+    font-size: 11px;
+    -webkit-line-clamp: 2;
+    margin-bottom: 8px;
+  }
+
+  .lifecycle-card-chips {
+    gap: 4px;
+    margin-bottom: 8px;
+  }
+
+  .lifecycle-chip {
+    font-size: 8.5px;
+    padding: 2px 6px;
+  }
+
+  .lifecycle-nav-btn {
+    width: 36px;
+    height: 36px;
+  }
+
+  .lifecycle-nav-prev {
+    left: 4px;
+  }
+
+  .lifecycle-nav-next {
+    right: 4px;
+  }
+
+  .lifecycle-step-dot {
+    width: 28px;
+    height: 28px;
+  }
+
+  .lifecycle-dot-number {
+    font-size: 9.5px;
+  }
+
+  .lifecycle-progress-summary {
+    font-size: 10px;
+  }
+
+  .lifecycle-scroll-prompt {
+    font-size: 8.5px;
+    letter-spacing: 0.1em;
+  }
+}
+
 
 /* Services Section */
 .services {
@@ -584,9 +1056,9 @@
 .service-card {
   position: relative;
   overflow: hidden;
-  background: rgba(255,255,255,0.03);
+  background: rgba(255, 255, 255, 0.03);
   padding: 56px 48px;
-  border: 1px solid rgba(255,255,255,0.06);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   cursor: default;
   transition: background 0.4s ease;
   min-height: 400px;
@@ -596,7 +1068,7 @@
 }
 
 .service-card:hover {
-  background: rgba(255,255,255,0.06);
+  background: rgba(255, 255, 255, 0.06);
   border-color: rgba(255, 184, 28, 0.25);
 }
 
@@ -615,7 +1087,7 @@
   opacity: 1;
 }
 
-.service-card > * {
+.service-card>* {
   position: relative;
   z-index: 1;
 }
@@ -662,7 +1134,7 @@
 .service-card-items li {
   font-family: var(--font-body);
   font-size: clamp(12px, 1vw, 14px);
-  color: rgba(255,255,255,0.5);
+  color: rgba(255, 255, 255, 0.5);
   display: flex;
   align-items: center;
   gap: 10px;
@@ -670,7 +1142,7 @@
 }
 
 .service-card:hover .service-card-items li {
-  color: rgba(255,255,255,0.75);
+  color: rgba(255, 255, 255, 0.75);
 }
 
 .service-card-items li::before {
@@ -689,7 +1161,7 @@
   font-family: var(--font-heading);
   font-size: clamp(100px, 14vw, 220px);
   font-weight: 900;
-  color: rgba(255,255,255,0.02);
+  color: rgba(255, 255, 255, 0.02);
   line-height: 1;
   pointer-events: none;
   user-select: none;
@@ -697,7 +1169,7 @@
 }
 
 .service-card:hover .service-card-bg-number {
-  color: rgba(255,184,28,0.04);
+  color: rgba(255, 184, 28, 0.04);
 }
 
 /* Supply Installation */
@@ -757,7 +1229,7 @@
 .supply-panel-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(16,29,6,0.9) 0%, transparent 50%);
+  background: linear-gradient(to top, rgba(16, 29, 6, 0.9) 0%, transparent 50%);
 }
 
 .supply-panel-content {
@@ -844,8 +1316,8 @@
 
 .capability-stat {
   padding: 48px 32px;
-  border: 1px solid rgba(255,255,255,0.06);
-  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.03);
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -853,7 +1325,7 @@
 }
 
 .capability-stat:hover {
-  background: rgba(255,255,255,0.07);
+  background: rgba(255, 255, 255, 0.07);
 }
 
 .capability-number {
@@ -879,7 +1351,7 @@
   font-family: var(--font-body);
   font-size: clamp(11px, 0.9vw, 13px);
   line-height: 1.6;
-  color: rgba(255,255,255,0.45);
+  color: rgba(255, 255, 255, 0.45);
 }
 
 /* Services and Capability responsive styles */
@@ -941,4 +1413,3 @@
     padding: 32px 20px;
   }
 }
-

@@ -21,19 +21,19 @@ export default function Hero() {
     const ctx = gsap.context(() => {
       // Set initial states for Option 2: 3D Industrial Steel "Flip-Lock"
       gsap.set(labelRef.current, { opacity: 0, y: -15 });
-      gsap.set('.hero-char', { 
-        rotateX: -92, 
-        y: -30, 
-        opacity: 0, 
-        transformOrigin: '50% 0%', 
-        transformPerspective: 1200 
+      gsap.set('.hero-char', {
+        rotateX: -92,
+        y: -30,
+        opacity: 0,
+        transformOrigin: '50% 0%',
+        transformPerspective: 1200
       });
-      gsap.set('.hero-amp', { 
-        rotateX: -92, 
-        y: -30, 
-        opacity: 0, 
-        transformOrigin: '50% 0%', 
-        transformPerspective: 1200 
+      gsap.set('.hero-amp', {
+        rotateX: -92,
+        y: -30,
+        opacity: 0,
+        transformOrigin: '50% 0%',
+        transformPerspective: 1200
       });
       gsap.set(bloomRef.current, { opacity: 0, scale: 0.75 });
       gsap.set(subRef.current, { opacity: 0, y: 25 });
@@ -94,12 +94,12 @@ export default function Hero() {
         duration: 0.6,
         ease: 'power2.out',
       }, '-=0.55')
-      .to(bloomRef.current, {
-        opacity: 0.45,
-        scale: 1.0,
-        duration: 0.5,
-        ease: 'power1.inOut',
-      });
+        .to(bloomRef.current, {
+          opacity: 0.45,
+          scale: 1.0,
+          duration: 0.5,
+          ease: 'power1.inOut',
+        });
 
       // Mechanical impact micro-recoil on the entire heading structure
       tl.to(headingRef.current, {
@@ -179,7 +179,7 @@ export default function Hero() {
 
       // Animated counters
       gsap.to('.hero-stat-count[data-target]', {
-        innerHTML: function(i, el) { return el.dataset.target; },
+        innerHTML: function (i, el) { return el.dataset.target; },
         duration: 2.2,
         delay: 1.1,
         ease: 'power2.out',

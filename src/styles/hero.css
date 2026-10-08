@@ -137,13 +137,11 @@
   left: 3%;
   right: 3%;
   pointer-events: none;
-  background: radial-gradient(
-    ellipse 65% 55% at 50% 50%,
-    rgba(0, 102, 255, 0.45) 0%,
-    rgba(0, 212, 255, 0.22) 32%,
-    rgba(0, 102, 255, 0.08) 58%,
-    transparent 75%
-  );
+  background: radial-gradient(ellipse 65% 55% at 50% 50%,
+      rgba(0, 102, 255, 0.45) 0%,
+      rgba(0, 212, 255, 0.22) 32%,
+      rgba(0, 102, 255, 0.08) 58%,
+      transparent 75%);
   filter: blur(32px);
   z-index: 1;
   opacity: 0;

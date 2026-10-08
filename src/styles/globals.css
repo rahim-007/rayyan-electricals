@@ -4,7 +4,9 @@
    ======================================== */
 
 /* ---- Reset & Base ---- */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -12,28 +14,42 @@
 
 :root {
   /* Brand Color Tokens (Option 5: Precision Steel & Industrial Blue) */
-  --color-steel-bg: #0F131A;            /* Cool Steel Graphite (main dark background) */
-  --color-steel-dark: #090C10;          /* Deepest graphite tone */
-  --color-steel-card: #161D29;          /* Precision card surface */
-  --color-steel-surface: #1E2738;       /* Elevated technical surface */
-  --color-steel-border: rgba(0, 102, 255, 0.2); /* Technical grid border */
+  --color-steel-bg: #0F131A;
+  /* Cool Steel Graphite (main dark background) */
+  --color-steel-dark: #090C10;
+  /* Deepest graphite tone */
+  --color-steel-card: #161D29;
+  /* Precision card surface */
+  --color-steel-surface: #1E2738;
+  /* Elevated technical surface */
+  --color-steel-border: rgba(0, 102, 255, 0.2);
+  /* Technical grid border */
 
-  --color-royal-blue: #0066FF;          /* Crisp Royal Blue (matches REE Logo primary) */
-  --color-royal-dark: #0047BA;          /* Deep industrial blue */
-  --color-cyan-spark: #00D2FF;          /* High-voltage ice cyan glow */
-  
-  --color-volt-red: #EF4444;            /* High-voltage alert red (matches logo bolt) */
-  --color-amber-gold: #F59E0B;          /* Solar amber for ratings & certifications */
+  --color-royal-blue: #0066FF;
+  /* Crisp Royal Blue (matches REE Logo primary) */
+  --color-royal-dark: #0047BA;
+  /* Deep industrial blue */
+  --color-cyan-spark: #00D2FF;
+  /* High-voltage ice cyan glow */
+
+  --color-volt-red: #EF4444;
+  /* High-voltage alert red (matches logo bolt) */
+  --color-amber-gold: #F59E0B;
+  /* Solar amber for ratings & certifications */
 
   /* Semantic Theme Mappings */
-  --color-dark-green: var(--color-steel-bg); /* Mapped from legacy green to Cool Steel */
-  --color-golden: var(--color-royal-blue);   /* Mapped to Crisp Royal Blue */
+  --color-dark-green: var(--color-steel-bg);
+  /* Mapped from legacy green to Cool Steel */
+  --color-golden: var(--color-royal-blue);
+  /* Mapped to Crisp Royal Blue */
   --color-brand-blue: var(--color-royal-blue);
   --color-brand-accent: var(--color-cyan-spark);
 
   --color-white: #FFFFFF;
-  --color-off-white: #F8FAFC;           /* Crisp Ice Slate for light sections */
-  --color-text-muted: #94A3B8;          /* Technical slate muted text */
+  --color-off-white: #F8FAFC;
+  /* Crisp Ice Slate for light sections */
+  --color-text-muted: #94A3B8;
+  /* Technical slate muted text */
   --color-black: #090C10;
   --color-dark: #12161F;
 
@@ -81,7 +97,8 @@ body {
 }
 
 /* Lenis smooth scroll */
-html.lenis, html.lenis body {
+html.lenis,
+html.lenis body {
   height: auto;
 }
 
@@ -313,8 +330,17 @@ img {
 }
 
 @keyframes bsPulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.4; transform: scale(0.85); }
+
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.4;
+    transform: scale(0.85);
+  }
 }
 
 /* ---- Light background sections ---- */
