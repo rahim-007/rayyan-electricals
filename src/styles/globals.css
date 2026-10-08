@@ -37,10 +37,11 @@
   --color-black: #090C10;
   --color-dark: #12161F;
 
-  /* Typography */
-  --font-heading: 'Barlow Condensed', sans-serif;
-  --font-body: 'Inter', sans-serif;
-  --font-number: 'Space Grotesk', sans-serif;
+  /* Typography (Better Stack Precision Style) */
+  --font-heading: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Space Grotesk', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-number: var(--font-mono);
 
   /* Spacing */
   --section-padding: clamp(48px, 5vw, 88px);
@@ -159,21 +160,21 @@ img {
   overflow: hidden;
 }
 
-/* ---- Button Base ---- */
+/* ---- Button Base (Better Stack SaaS Style) ---- */
 .btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 10px;
   font-family: var(--font-body);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
   cursor: pointer;
   border: none;
   text-decoration: none;
-  border-radius: 4px;
-  transition: all 0.35s var(--ease-out);
+  border-radius: 8px;
+  transition: all 0.25s var(--ease-out);
 }
 
 .btn-primary {
@@ -235,53 +236,85 @@ img {
   text-transform: uppercase;
 }
 
-/* ---- Responsive typography ---- */
+/* ---- Responsive typography (Better Stack Engineering Aesthetic) ---- */
 .h-giant {
   font-family: var(--font-heading);
-  font-size: clamp(64px, 9vw, 160px);
+  font-size: clamp(44px, 5.8vw, 84px);
   font-weight: 800;
-  line-height: 0.9;
-  letter-spacing: -0.02em;
-  text-transform: uppercase;
+  line-height: 1.08;
+  letter-spacing: -0.035em;
 }
 
 .h-large {
   font-family: var(--font-heading);
-  font-size: clamp(48px, 7vw, 120px);
-  font-weight: 800;
-  line-height: 0.92;
-  letter-spacing: -0.01em;
-  text-transform: uppercase;
+  font-size: clamp(34px, 4.2vw, 64px);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.03em;
 }
 
 .h-medium {
   font-family: var(--font-heading);
-  font-size: clamp(36px, 5vw, 80px);
+  font-size: clamp(26px, 2.8vw, 42px);
   font-weight: 700;
-  line-height: 0.95;
-  text-transform: uppercase;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
 }
 
 .h-small {
   font-family: var(--font-heading);
-  font-size: clamp(24px, 3vw, 48px);
-  font-weight: 700;
-  line-height: 1.05;
-  text-transform: uppercase;
+  font-size: clamp(19px, 1.8vw, 28px);
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
 }
 
 .body-large {
   font-family: var(--font-body);
-  font-size: clamp(15px, 1.2vw, 18px);
-  line-height: 1.7;
-  color: rgba(255,255,255,0.8);
+  font-size: clamp(15px, 1.1vw, 17px);
+  line-height: 1.65;
+  letter-spacing: -0.01em;
+  color: var(--color-text-muted);
 }
 
 .body-regular {
   font-family: var(--font-body);
-  font-size: clamp(13px, 1vw, 15px);
-  line-height: 1.65;
-  color: rgba(255,255,255,0.65);
+  font-size: clamp(13px, 0.95vw, 15px);
+  line-height: 1.6;
+  letter-spacing: -0.005em;
+  color: var(--color-text-muted);
+}
+
+/* Better Stack Micro Badges & Metrics */
+.bs-badge {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  border-radius: 9999px;
+  background: rgba(0, 102, 255, 0.08);
+  border: 1px solid rgba(0, 102, 255, 0.22);
+  color: #60A5FA;
+}
+
+.bs-dot-live {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #10B981;
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.8);
+  display: inline-block;
+  animation: bsPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes bsPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
 }
 
 /* ---- Light background sections ---- */

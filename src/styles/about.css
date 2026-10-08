@@ -53,22 +53,23 @@
 
 .about-heading {
   font-family: var(--font-heading);
-  font-size: clamp(72px, 9vw, 160px);
-  font-weight: 900;
-  line-height: 0.88;
-  letter-spacing: -0.02em;
+  font-size: clamp(38px, 5.2vw, 76px);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.035em;
   text-transform: uppercase;
   color: var(--color-dark-green);
-  margin-bottom: 48px;
+  margin-bottom: 40px;
 }
 
 .about-heading .year-accent {
   display: block;
-  font-size: clamp(20px, 3vw, 48px);
-  font-weight: 400;
-  letter-spacing: 0.05em;
+  font-family: var(--font-mono);
+  font-size: clamp(16px, 1.8vw, 28px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
   color: var(--color-golden);
-  margin-top: 8px;
+  margin-top: 10px;
 }
 
 .about-image-wrap {

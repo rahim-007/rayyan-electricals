@@ -73,29 +73,39 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: clamp(14px, 1.8vw, 24px);
+  gap: 10px;
   text-align: center;
+  padding: 6px 16px;
+  background: rgba(0, 102, 255, 0.08);
+  border: 1px solid rgba(0, 102, 255, 0.28);
+  border-radius: 9999px;
+  backdrop-filter: blur(8px);
+  margin-top: 18px;
 }
 
-.hero-label-bar {
-  width: clamp(38px, 5vw, 70px);
-  height: 2px;
-  background: var(--color-royal-blue);
-  opacity: 0.9;
+.hero-label-bar:first-child {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #10B981;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.85);
   flex-shrink: 0;
-  margin-top: 31px;
+  animation: bsPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  display: inline-block;
+}
 
+.hero-label-bar:last-child {
+  display: none;
 }
 
 .hero-label-text {
-  font-family: var(--font-body);
-  font-size: clamp(11px, 0.95vw, 13px);
-  font-weight: 700;
-  letter-spacing: 0.28em;
+  font-family: var(--font-mono);
+  font-size: clamp(10.5px, 0.9vw, 12px);
+  font-weight: 600;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--color-cyan-spark);
+  color: #93C5FD;
   white-space: nowrap;
-  margin-top: 30px;
 }
 
 /* Full-Width Content Container */
@@ -172,43 +182,43 @@
 .hero-char {
   display: inline-block;
   font-family: var(--font-heading);
-  font-size: clamp(48px, 6.4vw, 108px);
-  font-weight: 900;
+  font-size: clamp(38px, 4.8vw, 82px);
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.035em;
   color: var(--color-white);
-  line-height: 0.94;
+  line-height: 1.05;
   will-change: transform, opacity;
   transform-style: preserve-3d;
   backface-visibility: hidden;
-  text-shadow: 0 4px 16px rgba(0, 0, 0, 0.75), 0 1px 3px rgba(0, 0, 0, 0.9);
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8), 0 0 14px rgba(0, 102, 255, 0.2);
   transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), text-shadow 0.35s ease;
 }
 
 .hero-word-spacer {
   display: inline-block;
   font-family: var(--font-heading);
-  font-size: clamp(48px, 6.4vw, 108px);
-  width: 0.28em;
-  line-height: 0.94;
+  font-size: clamp(38px, 4.8vw, 82px);
+  width: 0.32em;
+  line-height: 1.05;
   user-select: none;
 }
 
 .hero-amp-wrap {
-  margin-right: 4px;
+  margin-right: 6px;
 }
 
 .hero-amp {
   display: inline-block;
   font-family: var(--font-heading);
-  font-size: clamp(48px, 6.4vw, 108px);
-  font-weight: 900;
-  line-height: 0.94;
+  font-size: clamp(38px, 4.8vw, 82px);
+  font-weight: 800;
+  line-height: 1.05;
   color: var(--color-cyan-spark);
   will-change: transform, opacity, filter;
   transform-style: preserve-3d;
   backface-visibility: hidden;
-  filter: drop-shadow(0 0 14px rgba(0, 212, 255, 0.75));
+  filter: drop-shadow(0 0 16px rgba(0, 212, 255, 0.8));
   transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), filter 0.35s ease;
 }
 
@@ -266,18 +276,17 @@
 
 .hero-sub p {
   font-family: var(--font-heading);
-  font-size: clamp(18px, 2vw, 30px);
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: rgba(255, 255, 255, 0.9);
-  line-height: 1.25;
+  font-size: clamp(16px, 1.45vw, 22px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: rgba(255, 255, 255, 0.92);
+  line-height: 1.35;
   margin: 0;
 }
 
 .hero-sub p strong {
   color: var(--color-cyan-spark);
-  font-weight: 700;
+  font-weight: 800;
 }
 
 .hero-desc {
@@ -287,9 +296,10 @@
 
 .hero-desc p {
   font-family: var(--font-body);
-  font-size: clamp(13px, 0.95vw, 16px);
+  font-size: clamp(13.5px, 0.95vw, 15px);
   line-height: 1.65;
-  color: rgba(255, 255, 255, 0.72);
+  letter-spacing: -0.01em;
+  color: #94A3B8;
   margin: 0;
 }
 
@@ -339,25 +349,24 @@
   font-family: var(--font-heading);
   font-size: 13px;
   font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: -0.01em;
   color: var(--color-white);
-  line-height: 1.15;
+  line-height: 1.2;
 }
 
 .hero-cap-text span {
   font-family: var(--font-body);
-  font-size: 10.5px;
-  color: rgba(255, 255, 255, 0.6);
-  line-height: 1.3;
+  font-size: 11px;
+  color: #94A3B8;
+  line-height: 1.35;
 }
 
 .hero-cap-pill {
-  font-family: var(--font-body);
-  font-size: 8px;
-  font-weight: 700;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.04em;
   color: var(--color-cyan-spark);
   background: rgba(0, 102, 255, 0.15);
   border: 1px solid rgba(0, 102, 255, 0.3);
@@ -424,18 +433,18 @@
 }
 
 .exec-step-num {
-  font-family: var(--font-number);
-  font-size: 10px;
+  font-family: var(--font-mono);
+  font-size: 11px;
   font-weight: 700;
-  color: var(--color-royal-blue);
+  color: var(--color-cyan-spark);
+  letter-spacing: 0.02em;
 }
 
 .exec-step-title {
   font-family: var(--font-heading);
-  font-size: 12px;
+  font-size: 11.5px;
   font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: -0.01em;
   color: var(--color-white);
 }
 
@@ -556,12 +565,13 @@
 }
 
 .cred-stat {
-  font-family: var(--font-number);
-  font-size: clamp(22px, 1.8vw, 30px);
-  font-weight: 700;
+  font-family: var(--font-mono);
+  font-size: clamp(24px, 2.2vw, 34px);
+  font-weight: 800;
   color: var(--color-white);
   line-height: 1;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.035em;
+  font-feature-settings: "tnum" 1;
 }
 
 .cred-stat.highlight {
@@ -573,34 +583,35 @@
 }
 
 .cred-badge {
-  font-family: var(--font-body);
-  font-size: 9px;
+  font-family: var(--font-mono);
+  font-size: 10px;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: rgba(255, 255, 255, 0.7);
+  letter-spacing: 0.04em;
+  color: #93C5FD;
   background: rgba(0, 102, 255, 0.12);
   padding: 3px 8px;
-  border-radius: 3px;
-  border: 1px solid rgba(0, 102, 255, 0.22);
+  border-radius: 9999px;
+  border: 1px solid rgba(0, 102, 255, 0.28);
   white-space: nowrap;
 }
 
 .cred-title {
   font-family: var(--font-heading);
-  font-size: 15px;
+  font-size: 13.5px;
   font-weight: 700;
   text-transform: uppercase;
   color: var(--color-white);
-  letter-spacing: 0.05em;
+  letter-spacing: -0.01em;
   margin: 0 0 4px;
 }
 
 .cred-desc {
   font-family: var(--font-body);
-  font-size: 11px;
-  line-height: 1.45;
-  color: rgba(255, 255, 255, 0.62);
+  font-size: 12px;
+  line-height: 1.5;
+  letter-spacing: -0.005em;
+  color: #94A3B8;
   margin: 0;
 }
 

@@ -45,11 +45,11 @@
 
 .vm-main-title {
   font-family: var(--font-heading);
-  font-size: clamp(40px, 5.5vw, 76px);
-  font-weight: 900;
+  font-size: clamp(32px, 4.2vw, 56px);
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: -0.01em;
-  line-height: 0.95;
+  letter-spacing: -0.03em;
+  line-height: 1.12;
   color: var(--color-white);
   margin: 0;
 }
@@ -123,12 +123,12 @@
 
 .vm-card-heading {
   font-family: var(--font-heading);
-  font-size: clamp(26px, 2.5vw, 36px);
-  font-weight: 900;
+  font-size: clamp(20px, 1.8vw, 26px);
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.02em;
+  letter-spacing: -0.02em;
   color: var(--color-white);
-  line-height: 1.1;
+  line-height: 1.2;
   margin: 0;
 }
 

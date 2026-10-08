@@ -86,9 +86,10 @@
 }
 
 .core-val-num {
-  font-family: var(--font-number);
-  font-size: 20px;
+  font-family: var(--font-mono);
+  font-size: 18px;
   font-weight: 800;
+  letter-spacing: -0.02em;
   color: var(--color-cyan-spark);
 }
 
@@ -106,12 +107,12 @@
 
 .core-val-title {
   font-family: var(--font-heading);
-  font-size: clamp(24px, 2vw, 30px);
-  font-weight: 900;
+  font-size: clamp(19px, 1.8vw, 25px);
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: -0.02em;
   color: var(--color-white);
-  line-height: 1.1;
+  line-height: 1.2;
   margin: 0;
 }
 
