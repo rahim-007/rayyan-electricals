@@ -241,15 +241,14 @@ export default function Hero() {
       }
 
       // ==========================================
-      // SCROLL-DRIVEN CINEMATIC TRANSITION
-      // Scrubbed to exact user scroll timeline:
-      // 0%   Full electrical environment + title + CTA
-      // 25%  Title moves upward, background begins zooming
-      // 50%  Infrastructure shifts in depth, electrical light moves
-      // 75%  Hero recedes, next section reveals underneath
-      // 100% Hero completely transitions into next section
+      // SCROLL-DRIVEN CINEMATIC TRANSITION (DESKTOP ONLY >= 1025px)
+      // Mobile and Tablet have a multi-fold natural vertical flow;
+      // ScrollTrigger scrub MUST NOT run on mobile/tablet to prevent
+      // content blur or fading when scrolling.
       // ==========================================
-      if (window.innerWidth > 768) {
+      const mm = gsap.matchMedia();
+
+      mm.add('(min-width: 1025px)', () => {
         const scrollTl = gsap.timeline({
           scrollTrigger: {
             trigger: heroRef.current,
@@ -263,6 +262,7 @@ export default function Hero() {
         scrollTl.to(bgRef.current, {
           scale: 1.0,
           yPercent: 18,
+          opacity: 0.45,
           ease: 'none',
         }, 0);
 
@@ -271,19 +271,17 @@ export default function Hero() {
           ease: 'none',
         }, 0);
 
-        // Typography moves upward with blur & scale reduction
+        // Typography moves upward gently without any blur
         scrollTl.to(titleWrapRef.current, {
-          yPercent: -45,
-          scale: 0.94,
-          opacity: 0.25,
-          filter: 'blur(8px)',
+          yPercent: -35,
+          scale: 0.96,
+          opacity: 0.45,
           ease: 'none',
         }, 0);
 
         scrollTl.to(panoramicRef.current, {
-          yPercent: -45,
-          opacity: 0.15,
-          filter: 'blur(6px)',
+          yPercent: -30,
+          opacity: 0.6,
           ease: 'none',
         }, 0);
 
@@ -302,19 +300,20 @@ export default function Hero() {
           ease: 'none',
         }, 0.05);
 
-        // 50% -> 75% -> 100%: Entire hero stage recedes in 3D perspective as next section reveals
+        // 50% -> 100%: Desktop hero stage fades gently
         scrollTl.to(stageRef.current, {
-          opacity: 0,
-          scale: 0.90,
-          filter: 'blur(10px)',
+          opacity: 0.3,
+          scale: 0.94,
           ease: 'none',
         }, 0.45);
+      });
 
-        scrollTl.to(heroRef.current, {
-          filter: 'brightness(0.35)',
-          ease: 'none',
-        }, 0.55);
-      }
+      mm.add('(max-width: 1024px)', () => {
+        // Explicitly guarantee all mobile/tablet hero elements are fully visible and crystal sharp
+        gsap.set([stageRef.current, panoramicRef.current, heroRef.current], {
+          clearProps: 'filter,opacity',
+        });
+      });
 
       // ==========================================
       // DESKTOP MICRO-PARALLAX (Subtle Depth Tracking)
@@ -367,8 +366,28 @@ export default function Hero() {
     return () => ctx.revert();
   }, []);
 
+  // 3. Auto-fade scroll indicator on mobile as soon as user begins scrolling
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!scrollCueRef.current) return;
+      if (window.scrollY > 25) {
+        scrollCueRef.current.style.opacity = '0';
+        scrollCueRef.current.style.pointerEvents = 'none';
+      } else {
+        scrollCueRef.current.style.opacity = '1';
+        scrollCueRef.current.style.pointerEvents = 'auto';
+      }
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   const scrollDown = () => {
-    document.querySelector('#about')?.scrollIntoView({ behavior: 'smooth' });
+    if (window.innerWidth <= 1024) {
+      document.querySelector('.hero-left-bottom')?.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      document.querySelector('#about')?.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   return (
@@ -423,10 +442,16 @@ export default function Hero() {
       <div className="hero-stage" ref={stageRef}>
 
 
-        {/* 3. FLOATING INDUSTRIAL TYPOGRAPHY (MATCHING USER TITLE LOCKUP IN BOTH VIEWS) */}
+        {/* 3. 3D INDUSTRIAL COMMAND TYPOGRAPHY */}
         <div className="hero-title-wrap" ref={titleWrapRef}>
-          {/* Volumetric Dark-Lens Backlight Shield to neutralize background steel trusses */}
+          {/* Volumetric Dark-Lens Backlight Shield & 3D Plasma Corona */}
           <div className="hero-title-backlight" ref={bloomRef} aria-hidden="true" />
+
+          {/* Precision Industrial Kicker Badge */}
+          <div className="hero-kicker-tag" aria-label="Government Licensed Electrical Contractor">
+            <span className="kicker-pulse-dot" aria-hidden="true" />
+            <span>GOVT. LICENSED ELECTRICAL CONTRACTOR</span>
+          </div>
 
           <h1 className="hero-title">
             <span className="hero-title-line title-line-primary" ref={line1Ref}>
@@ -443,170 +468,237 @@ export default function Hero() {
           </h1>
         </div>
 
-        {/* 4. LOWER PANORAMIC GRID (MATCHING IMAGE 2 IN MOBILE AND IMAGE 3 IN DESKTOP) */}
+        {/* 4. LOWER PANORAMIC GRID / COMMAND DECK (AWWWARDS-TIER INDUSTRIAL ARCHITECTURE) */}
         <div className="hero-panoramic-grid" ref={panoramicRef}>
-          {/* Left Column: Subtitle, Description, Technical Capability Matrix, Execution Strip, CTA Buttons */}
-          <div className="hero-left-col">
-            <div className="hero-left-top">
-              <div className="hero-sub">
-                <p>
-                  <strong>POWERING INDUSTRY</strong> THROUGH RELIABLE ELECTRICAL SOLUTIONS
-                </p>
-              </div>
-
-              <div className="hero-desc">
-                <p>
-                  End-to-end turnkey electrical solutions covering design, supply, installation,
-                  testing, commissioning and maintenance across Tamil Nadu's industrial manufacturing hubs.
-                </p>
-              </div>
-
-              {/* Technical Capabilities Matrix */}
-              <div className="hero-caps-strip">
-                <div className="hero-cap-item">
-                  <span className="hero-cap-icon">⚡</span>
-                  <div className="hero-cap-text">
-                    <strong>HT &amp; LT Power</strong>
-                    <span>Substations, Panels &amp; Busduct</span>
-                  </div>
-                  <span className="hero-cap-pill">Up to 33kV</span>
-                </div>
-                <div className="hero-cap-item">
-                  <span className="hero-cap-icon">🛠️</span>
-                  <div className="hero-cap-text">
-                    <strong>Infrastructure</strong>
-                    <span>Cable Trays &amp; Factory Electrification</span>
-                  </div>
-                  <span className="hero-cap-pill">Heavy Duty</span>
-                </div>
-                <div className="hero-cap-item">
-                  <span className="hero-cap-icon">🛡️</span>
-                  <div className="hero-cap-text">
-                    <strong>C-Lic Compliance</strong>
-                    <span>Govt. Certified Engineers &amp; AMC</span>
-                  </div>
-                  <span className="hero-cap-pill">TNEB Class</span>
-                </div>
-              </div>
-
-              {/* End-to-End Industrial Execution Bar - Full Lifecycle (Desktop) */}
-              <div className="hero-execution-strip">
-                <div className="execution-header">
-                  <span className="execution-label">END-TO-END INDUSTRIAL TURNKEY SCOPE</span>
-                  <span className="execution-badge">FULL LIFECYCLE</span>
-                </div>
-                <div className="execution-steps">
-                  <div className="exec-step">
-                    <span className="exec-step-num">01</span>
-                    <span className="exec-step-title">Design</span>
-                  </div>
-                  <span className="exec-step-arrow">➔</span>
-                  <div className="exec-step">
-                    <span className="exec-step-num">02</span>
-                    <span className="exec-step-title">Supply</span>
-                  </div>
-                  <span className="exec-step-arrow">➔</span>
-                  <div className="exec-step">
-                    <span className="exec-step-num">03</span>
-                    <span className="exec-step-title">Installation</span>
-                  </div>
-                  <span className="exec-step-arrow">➔</span>
-                  <div className="exec-step">
-                    <span className="exec-step-num">04</span>
-                    <span className="exec-step-title">Testing</span>
-                  </div>
-                  <span className="exec-step-arrow">➔</span>
-                  <div className="exec-step">
-                    <span className="exec-step-num">05</span>
-                    <span className="exec-step-title">Commissioning</span>
-                  </div>
-                  <span className="exec-step-arrow">➔</span>
-                  <div className="exec-step">
-                    <span className="exec-step-num">06</span>
-                    <span className="exec-step-title">AMC</span>
-                  </div>
-                </div>
-              </div>
+          {/* Deck Top HUD Telemetry Bar (Visible on Desktop) */}
+          <div className="hero-deck-hud-header" aria-hidden="true">
+            <div className="deck-hud-status">
+              <span className="deck-hud-pulse" />
+              <span className="deck-hud-status-text">ACTIVE INDUSTRIAL INFRASTRUCTURE EPC • HT / LT TO 33kV</span>
             </div>
-
-            <div className="hero-left-bottom">
-              <div className="hero-cta-group">
-                <button
-                  className="btn btn-primary"
-                  onClick={() => document.querySelector('#core-business')?.scrollIntoView({ behavior: 'smooth' })}
-                >
-                  Explore Capabilities
-                </button>
-                <button
-                  className="btn btn-outline"
-                  onClick={() => document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' })}
-                >
-                  Contact Us
-                </button>
-                <a href="tel:+918056810080" className="hero-cta-call" title="Direct 24/7 Breakdown Hotline">
-                  <span className="cta-call-icon">📞</span>
-                  <span>Direct Hotline</span>
-                </a>
-              </div>
-
-              <div className="hero-trust-tagline">
-                <span>✓ 20+ Site Engineers &amp; Licensed Wiremen</span>
-                <span className="tagline-dot">•</span>
-                <span>✓ 24/7 Breakdown Response</span>
-                <span className="tagline-dot">•</span>
-                <span>✓ Oragadam Hub</span>
-              </div>
+            <div className="deck-hud-badge">
+              <span>GRADE-A TNEB / ELB CONTRACTOR</span>
+              <span className="deck-hud-sep">•</span>
+              <span>TAMIL NADU INDUSTRIAL CORRIDORS</span>
             </div>
           </div>
 
-          {/* Right Column: High-Impact Industrial Credentials & Stats Matrix */}
-          <div className="hero-right-col">
-            <div className="hero-credentials-grid">
-              <div className="hero-cred-card">
-                <div className="cred-card-top">
-                  <span className="cred-stat">
-                    <span className="hero-stat-count" data-target="20">0</span>+
+          <div className="hero-deck-body">
+            {/* Left Wing: Strategic Turnkey EPC Console */}
+            <div className="hero-left-col">
+              <div className="hero-left-top">
+                {/* Technical Module HUD Header on Mobile */}
+                <div className="hero-console-hud-bar" aria-hidden="true">
+                  <span className="console-hud-tag">
+                    <span className="console-hud-dot" />
+                    TURNKEY INDUSTRIAL SCOPE
                   </span>
-                  <span className="cred-badge">Field Force</span>
+                  <span className="console-hud-code">HT / LT • 33kV</span>
                 </div>
-                <h4 className="cred-title">Skilled Professionals</h4>
-                <p className="cred-desc">Certified high-voltage engineers, site supervisors &amp; licensed wiremen.</p>
+
+                <div className="hero-sub">
+                  <p>
+                    <strong>POWERING INDUSTRY</strong> THROUGH RELIABLE ELECTRICAL SOLUTIONS
+                  </p>
+                </div>
+
+                <div className="hero-desc">
+                  <p>
+                    End-to-end turnkey electrical solutions covering design, supply, installation,
+                    testing, commissioning and maintenance across Tamil Nadu's industrial manufacturing hubs.
+                  </p>
+                </div>
+
+                {/* Technical Capabilities Matrix */}
+                <div className="hero-caps-strip">
+                  <div className="hero-cap-item">
+                    <span className="hero-cap-icon" aria-hidden="true">
+                      <svg className="hero-cap-svg" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" fill="currentColor" />
+                      </svg>
+                    </span>
+                    <div className="hero-cap-text">
+                      <strong>HT &amp; LT Power</strong>
+                      <span>Substations, Panels &amp; Busduct</span>
+                    </div>
+                    <span className="hero-cap-pill">Up to 33kV</span>
+                  </div>
+                  <div className="hero-cap-item">
+                    <span className="hero-cap-icon" aria-hidden="true">
+                      <svg className="hero-cap-svg" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
+                      </svg>
+                    </span>
+                    <div className="hero-cap-text">
+                      <strong>Infrastructure</strong>
+                      <span>Cable Trays &amp; Factory Electrification</span>
+                    </div>
+                    <span className="hero-cap-pill">Heavy Duty</span>
+                  </div>
+                  <div className="hero-cap-item">
+                    <span className="hero-cap-icon" aria-hidden="true">
+                      <svg className="hero-cap-svg" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                        <polyline points="9 12 11 14 15 10" />
+                      </svg>
+                    </span>
+                    <div className="hero-cap-text">
+                      <strong>C-Lic Compliance</strong>
+                      <span>Govt. Certified Engineers &amp; AMC</span>
+                    </div>
+                    <span className="hero-cap-pill">TNEB Class</span>
+                  </div>
+                </div>
+
+                {/* End-to-End Industrial Execution Bar - Full Lifecycle */}
+                <div className="hero-execution-strip">
+                  <div className="execution-header">
+                    <span className="execution-label">END-TO-END INDUSTRIAL TURNKEY SCOPE</span>
+                    <span className="execution-badge">FULL LIFECYCLE</span>
+                  </div>
+                  <div className="execution-steps">
+                    <div className="exec-step">
+                      <span className="exec-step-num">01</span>
+                      <span className="exec-step-title">Design</span>
+                    </div>
+                    <span className="exec-step-arrow" aria-hidden="true">&rarr;</span>
+                    <div className="exec-step">
+                      <span className="exec-step-num">02</span>
+                      <span className="exec-step-title">Supply</span>
+                    </div>
+                    <span className="exec-step-arrow" aria-hidden="true">&rarr;</span>
+                    <div className="exec-step">
+                      <span className="exec-step-num">03</span>
+                      <span className="exec-step-title">Installation</span>
+                    </div>
+                    <span className="exec-step-arrow" aria-hidden="true">&rarr;</span>
+                    <div className="exec-step">
+                      <span className="exec-step-num">04</span>
+                      <span className="exec-step-title">Testing</span>
+                    </div>
+                    <span className="exec-step-arrow" aria-hidden="true">&rarr;</span>
+                    <div className="exec-step">
+                      <span className="exec-step-num">05</span>
+                      <span className="exec-step-title">Commissioning</span>
+                    </div>
+                    <span className="exec-step-arrow" aria-hidden="true">&rarr;</span>
+                    <div className="exec-step">
+                      <span className="exec-step-num">06</span>
+                      <span className="exec-step-title">AMC</span>
+                    </div>
+                  </div>
+                </div>
               </div>
 
-              <div className="hero-cred-card">
-                <div className="cred-card-top">
-                  <span className="cred-stat highlight">C-LIC</span>
-                  <span className="cred-badge">Govt. Certified</span>
+              {/* Action Controls & Direct Hotline */}
+              <div className="hero-left-bottom">
+                <div className="hero-cta-group">
+                  <button
+                    className="btn btn-primary"
+                    onClick={() => document.querySelector('#core-business')?.scrollIntoView({ behavior: 'smooth' })}
+                  >
+                    <span>Explore Capabilities</span>
+                    <span className="btn-icon-wrapper" aria-hidden="true">
+                      <svg className="cta-btn-arrow" viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                        <line x1="3" y1="13" x2="13" y2="3" />
+                        <polyline points="5 3 13 3 13 11" />
+                      </svg>
+                    </span>
+                  </button>
+                  <button
+                    className="btn btn-outline"
+                    onClick={() => document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' })}
+                  >
+                    Contact Us
+                  </button>
+                  <a href="tel:+918056810080" className="hero-cta-call" title="Direct 24/7 Breakdown Hotline">
+                    <span className="cta-call-icon" aria-hidden="true">
+                      <svg className="cta-call-svg" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+                      </svg>
+                    </span>
+                    <span>Direct Hotline</span>
+                  </a>
                 </div>
-                <h4 className="cred-title">Licensed Contractor</h4>
-                <p className="cred-desc">Tamil Nadu Electrical Licensing Board certified for HT/LT installations.</p>
-              </div>
 
-              <div className="hero-cred-card">
-                <div className="cred-card-top">
-                  <span className="cred-stat">
-                    <span className="hero-stat-count" data-target="2023">2020</span>
+                <div className="hero-trust-tagline">
+                  <span className="trust-item">
+                    <svg className="trust-check-svg" viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <polyline points="3.5 8.5 6.5 11.5 12.5 4.5" />
+                    </svg>
+                    <span>20+ Site Engineers &amp; Licensed Wiremen</span>
                   </span>
-                  <span className="cred-badge">Track Record</span>
+                  <span className="tagline-dot" aria-hidden="true">•</span>
+                  <span className="trust-item">
+                    <svg className="trust-check-svg" viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <polyline points="3.5 8.5 6.5 11.5 12.5 4.5" />
+                    </svg>
+                    <span>24/7 Breakdown Response</span>
+                  </span>
+                  <span className="tagline-dot" aria-hidden="true">•</span>
+                  <span className="trust-item">
+                    <svg className="trust-check-svg" viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <polyline points="3.5 8.5 6.5 11.5 12.5 4.5" />
+                    </svg>
+                    <span>Oragadam Hub</span>
+                  </span>
                 </div>
-                <h4 className="cred-title">Established &amp; Proven</h4>
-                <p className="cred-desc">Trusted by Daimler, Hyundai Kefico, Blue Star, Danfoss &amp; Murugappa.</p>
-              </div>
-
-              <div className="hero-cred-card">
-                <div className="cred-card-top">
-                  <span className="cred-stat highlight">24/7</span>
-                  <span className="cred-badge">Rapid Mobilization</span>
-                </div>
-                <h4 className="cred-title">Breakdown Response</h4>
-                <p className="cred-desc">Emergency support team stationed near Oragadam &amp; Sriperumbudur corridors.</p>
               </div>
             </div>
 
-            {/* Industrial Corridors Ribbon */}
-            <div className="hero-corridors-ribbon">
-              <span className="ribbon-bolt">⚡</span>
-              <span>Serving Oragadam • Sriperumbudur • Guindy • Maraimalai Nagar Industrial Hubs</span>
+            {/* Right Wing: High-Impact Industrial Bento Matrix */}
+            <div className="hero-right-col">
+              <div className="hero-credentials-grid">
+                <div className="hero-cred-card">
+                  <div className="cred-card-top">
+                    <span className="cred-stat">
+                      <span className="hero-stat-count" data-target="20">0</span>+
+                    </span>
+                    <span className="cred-badge">Field Force</span>
+                  </div>
+                  <h4 className="cred-title">Skilled Professionals</h4>
+                  <p className="cred-desc">Certified high-voltage engineers, site supervisors &amp; licensed wiremen.</p>
+                </div>
+
+                <div className="hero-cred-card highlight-card">
+                  <div className="cred-card-top">
+                    <span className="cred-stat highlight">C-LIC</span>
+                    <span className="cred-badge highlight-badge">Govt. Certified</span>
+                  </div>
+                  <h4 className="cred-title">Licensed Contractor</h4>
+                  <p className="cred-desc">Tamil Nadu Electrical Licensing Board certified for HT/LT installations.</p>
+                </div>
+
+                <div className="hero-cred-card">
+                  <div className="cred-card-top">
+                    <span className="cred-stat">
+                      <span className="hero-stat-count" data-target="2023">2020</span>
+                    </span>
+                    <span className="cred-badge">Track Record</span>
+                  </div>
+                  <h4 className="cred-title">Established &amp; Proven</h4>
+                  <p className="cred-desc">Trusted by Daimler, Hyundai Kefico, Blue Star, Danfoss &amp; Murugappa.</p>
+                </div>
+
+                <div className="hero-cred-card highlight-card">
+                  <div className="cred-card-top">
+                    <span className="cred-stat highlight">24/7</span>
+                    <span className="cred-badge highlight-badge">Rapid Mobilization</span>
+                  </div>
+                  <h4 className="cred-title">Breakdown Response</h4>
+                  <p className="cred-desc">Emergency support team stationed near Oragadam &amp; Sriperumbudur corridors.</p>
+                </div>
+              </div>
+
+              {/* Industrial Corridors Ribbon */}
+              <div className="hero-corridors-ribbon">
+                <span className="ribbon-bolt" aria-hidden="true">
+                  <svg className="ribbon-bolt-svg" viewBox="0 0 24 24" width="13" height="13" fill="currentColor">
+                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                  </svg>
+                </span>
+                <span>Serving Oragadam • Sriperumbudur • Guindy • Maraimalai Nagar Industrial Hubs</span>
+              </div>
             </div>
           </div>
         </div>
